@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/Program Files (x86)/Analog Devices/VisualDSP 5.1.2/System/linker_log.xsl"?>
+<DOCUMENT gen_time='Thu Aug 31 15:39:46 2017
+'>
+<MSG id='033ED500' mid='li3050' type='Informational' suppressed=''>
+<TEXT><![CDATA[Input section(s) were excluded from output section 'seg_pmco']]></TEXT>
+<EXTENDED_INFO><![CDATA[The following input section(s) were excluded
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[divrem_s32.doj](seg_pmco)
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[sure_rti.doj](seg_pmco)
+    libc.dlb[divrem_s32.doj](seg_pmco)
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[sure_rti.doj](seg_pmco)]]></EXTENDED_INFO>
+</MSG>
+</DOCUMENT>
