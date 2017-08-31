@@ -5,13 +5,15 @@
 #include <Cdef21489.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "coeffs.h"
 #include "coeffsIIR.h"
 #include "window.h"
 #include <math.h>
 
+#include "effects.h"
 
- 
+
 // Check SRU Routings for errors.
 #define SRUDEBUG
 #include <SRU.h>
@@ -49,9 +51,7 @@
 #define POT_BUFFER_LENGTH 8
 
 // for masking out possible address offset when only interested in pointer relative positions			
-#define BUFFER_MASK 0x000000FF    
-
-#define DELAY_LENGTH 9600
+#define BUFFER_MASK 0x000000FF
 
 // Configure the PLL for a core-clock of 266MHz and SDCLK of 133MHz
 extern void initPLL_SDRAM(void);
@@ -68,20 +68,18 @@ void clearDAIpins(void);
 void initPCGA(void);
 
 // dsp functions
-void delayWithFeedback(int delaySpeed);
-void firFilter(void);
-void iirFilter(void);
-void downSample(int rate);
-void formatInput(void);
-void formatOutput(void);
+void firFilter(double * floatBuffer, int * dsp, double * potato);
+void iirFilter(double * floatBuffer, int * dsp, double * potato);
+void downSample(int rate, int * dsp, double * floatBuffer);
+void formatInput(int * dsp, double * potato, double * floatBuffer);
+void formatOutput(int * dsp, double * potato);
 
 void delay(int times);
 
 // SPORT0 receive buffer a - also used for transmission
 int rx0a_buf[BUFFER_LENGTH] = {0};
 
-// buffer for storing floats	
-double float_buffer[BUFFER_LENGTH] = {0.0};
+
 
 // SPORT1 transmit dummy buffer - for making sure tx is behind rx
 //int tx1a_buf_dummy[BUFFER_LENGTH/2] = {0};
@@ -116,18 +114,9 @@ int rx2a_tcb[8]  = {0,0,0,0, 0, POT_BUFFER_LENGTH, 1, 0};			// SPSORT2 receive f
 int auxDivisor = 0;
 
 // ------------------------ general globals ------------- //
-// main processing index
-int dsp = 0;
-// when each effect plays hot potato with the eventual output sample
-double potato = 0.0;
+
 
 // ------------------------ delay globals --------------- //
-// delay buffer index
-int delay_ptr = 0;
-// determines delay speed
-int delay_counter = 0;
-// buffer for storing delay samples
-double delay_buffer[2*DELAY_LENGTH] = {0};
 
 // ------------------------ downSample globals --------------- //
 
@@ -169,22 +158,44 @@ void main(void) {
 
 	initPCGA();
 
+	// main processing index
+	int * dsp = (int*)malloc(sizeof(int));
+	*dsp = 0;
+
+	// when each effect plays hot potato with the eventual output sample
+	double * potato = (double*)malloc(sizeof(double));
+	*potato = 0.0;
+
+	// determines delay speed
+	int * delayCounter = (int*)malloc(sizeof(int));
+	*delayCounter = 0;
+
+	// buffer for storing delay samples
+	double * delayBuffer = (double*)malloc(sizeof(double) * DELAY_LENGTH);
+
+	// delay buffer index
+	int * delayPtr = (int*)malloc(sizeof(int));
+	*delayPtr = 0;
+
+	// buffer for storing floats	
+	double * floatBuffer = (double*)malloc(sizeof(double) * BUFFER_LENGTH);
+
 	while(1){
-		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) {
-			formatInput();
-			
-			delayWithFeedback(potValue);
-			iirFilter();
-			//firFilter();
+		while( ( ((int)rx0a_buf + *dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) {
+			formatInput(dsp, potato, floatBuffer);
+
+			delayWithFeedback(potValue, delayCounter, delayBuffer, floatBuffer, delayPtr, potato, dsp);
+			iirFilter(floatBuffer, dsp, potato);
+			//firFilter(floatBuffer, dsp, potato);
 
 			// if this is called you cannot use formatOutput
-			// downSample(2);
+			// downSample(2, dsp, floatBuffer);
 
 			//printf("%d\n", (int)(potValue/128));
 			//printf("rx2a_buf[0] = %p\n", rx2a_buf[0]);
 			//printf("potValue = %f\n", potValue);
 
-			formatOutput();			
+			formatOutput(dsp, potato);			
 		}
 	}  
 }
@@ -504,54 +515,24 @@ void clearDAIpins(void)
     SRU(LOW, PBEN20_I);
 }
 
-// ----------------------- FEEDBACK DELAY --------------------- //
-
-void delayWithFeedback(int delaySpeed) 
-{
-	// delay_ptr is putting what rx just took in into the delay_buffer.
-	// once the delay length is satisfied, dsp pointer is adding to the receive buffer what rx
-	// already put there PLUS what's just ahead of where delay_ptr is now. this way, 
-	// the desired delay time is satisfied constantly.
-
-
-	delaySpeed = (int)(delaySpeed/127);
-
-	if (delaySpeed > 0)
-	 delay_counter =  (delay_counter + 1) % delaySpeed;
-
-	if  (delay_counter == 0) {
-
-		//*** write current input + attenuated delay into delay buffer at delay_ptr
-		delay_buffer[delay_ptr] = 0.5*delay_buffer[delay_ptr] + float_buffer[dsp];
-
-		//*** increment delay_ptr - now points to oldest spot in delay buffer
-		delay_ptr = (delay_ptr + 1)%DELAY_LENGTH;
-
-		//*** put the oldest delay value (from 1 delay ago) into receive float buffer
-	    float_buffer[dsp] = potato = delay_buffer[ delay_ptr];
-	}
-	
-
-    return;
-}
 // ----------------------- FIR FILTER ---------------------- //
 
-void firFilter() {
+void firFilter(double * floatBuffer, int * dsp, double * potato) {
 
 	double acc = 0.0;
 	int i = 0;
 
 	// convolution of input (going bakcwards) and coeffs (going forward)
 	for (i = 0 ; i < FILTER_LENGTH ; i++)
-		acc += float_buffer[ (dsp - i + BUFFER_LENGTH) % BUFFER_LENGTH ] * coeffs[i];
+		acc += floatBuffer[ (*dsp - i + BUFFER_LENGTH) % BUFFER_LENGTH ] * coeffs[i];
 
-	potato = acc;
+	*potato = acc;
 
 	return;              
 }
 // ----------------------- IIR FILTER ---------------------- //
 
-void iirFilter() {
+void iirFilter(double * floatBuffer, int * dsp, double * potato) {
 
 	int i;
 	
@@ -572,7 +553,7 @@ void iirFilter() {
 	double * hist2Ptr = history + 1;
 
 	// initial gain before going through each 2nd order IIR stage
-	acc_iir = gain*float_buffer[dsp];
+	acc_iir = gain*floatBuffer[*dsp];
 
 	for(i = 0; i < stages; i++ ) {
 
@@ -606,12 +587,12 @@ void iirFilter() {
 
 	
 	// output accumulator contains the filtered sample for output
-	potato = acc_iir;
+	*potato = acc_iir;
 
 	return;
 }
 
-void downSample(int rate) {
+void downSample(int rate, int * dsp, double * floatBuffer) {
 	
 	// if (dsp % rate == 0)
 	// 	potato = float_buffer[dsp];
@@ -623,9 +604,9 @@ void downSample(int rate) {
 	// float_buffer[dsp/rate] = float_buffer[(dsp + BUFFER_LENGTH)/rate] = float_buffer[dsp];
 
 
-	if (!(dsp % rate)){
+	if (!(*dsp % rate)){
 		
-		tx1a_buf[dsp/rate] = tx1a_buf[(dsp + BUFFER_LENGTH)/rate] =  (int)(float_buffer[dsp] * hanning[idx]);
+		tx1a_buf[*dsp/rate] = tx1a_buf[(*dsp + BUFFER_LENGTH)/rate] =  (int)(floatBuffer[*dsp] * hanning[idx]);
 		// tx1a_buf[dsp/rate] = tx1a_buf[(dsp + BUFFER_LENGTH)/rate] = (int)(1000000*hanning[idx]);
 		//printf("idx = %u\n", idx);	
 		if (idx == ((BUFFER_LENGTH/rate) - 1))
@@ -635,9 +616,9 @@ void downSample(int rate) {
 	}
 	
 
-	tx1a_buf[dsp] &= 0x00FFFFFF;	
+	tx1a_buf[*dsp] &= 0x00FFFFFF;	
 
-	dsp = (dsp + 1)%(BUFFER_LENGTH);
+	*dsp = (*dsp + 1)%(BUFFER_LENGTH);
 
 	return;
 
@@ -645,14 +626,14 @@ void downSample(int rate) {
 
 // ----------------------- FORMAT INPUT ---------------------- //
 
-void formatInput(void){
+void formatInput(int * dsp, double * potato, double * floatBuffer){
 
 	// format audio input
 
-	if (rx0a_buf[dsp] & 0x00800000)			// is rx negative?
-		rx0a_buf[dsp] |= 0xFF000000;		// sign-extend it
+	if (rx0a_buf[*dsp] & 0x00800000)			// is rx negative?
+		rx0a_buf[*dsp] |= 0xFF000000;		// sign-extend it
 
-    float_buffer[dsp] = potato = (double)rx0a_buf[dsp];
+    floatBuffer[*dsp] = *potato = (double)rx0a_buf[*dsp];
 
     // format potentiometer input
     potValue = (double)rx2a_buf[0];	
@@ -662,12 +643,12 @@ void formatInput(void){
 
 // ----------------------- FORMAT OUTPUT --------------------- //
 
-void formatOutput(void){
+void formatOutput(int * dsp, double * potato){
 
-	tx1a_buf[dsp] = (int)potato;
-	tx1a_buf[dsp] &= 0x00FFFFFF;	
+	tx1a_buf[*dsp] = (int)*potato;
+	tx1a_buf[*dsp] &= 0x00FFFFFF;	
 
-	dsp = (dsp + 1)%BUFFER_LENGTH;
+	*dsp = (*dsp + 1)%BUFFER_LENGTH;
 
 	return;
 }
