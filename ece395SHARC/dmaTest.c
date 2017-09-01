@@ -11,7 +11,7 @@
 #include "window.h"
 #include <math.h>
 
-#include "effects.h"
+#include "delay.h"
 
 
 // Check SRU Routings for errors.
@@ -171,7 +171,7 @@ void main(void) {
 	*delayCounter = 0;
 
 	// buffer for storing delay samples
-	double * delayBuffer = (double*)malloc(sizeof(double) * DELAY_LENGTH);
+	double * delayBuffer = (double*)malloc(sizeof(double) * 2 * DELAY_LENGTH);
 
 	// delay buffer index
 	int * delayPtr = (int*)malloc(sizeof(int));
@@ -185,8 +185,9 @@ void main(void) {
 			formatInput(dsp, potato, floatBuffer);
 
 			delayWithFeedback(potValue, delayCounter, delayBuffer, floatBuffer, delayPtr, potato, dsp);
-			iirFilter(floatBuffer, dsp, potato);
-			//firFilter(floatBuffer, dsp, potato);
+			// printf("main: floatBuffer[%d] = %f\n", *dsp , floatBuffer[*dsp]);
+			//iirFilter(floatBuffer, dsp, potato);
+			firFilter(floatBuffer, dsp, potato);
 
 			// if this is called you cannot use formatOutput
 			// downSample(2, dsp, floatBuffer);
@@ -534,6 +535,7 @@ void firFilter(double * floatBuffer, int * dsp, double * potato) {
 
 void iirFilter(double * floatBuffer, int * dsp, double * potato) {
 
+	// printf("iir: floatBuffer[%d] = %f\n", *dsp , floatBuffer[*dsp]);
 	int i;
 	
 	// accumulators for IIR filter
@@ -553,7 +555,7 @@ void iirFilter(double * floatBuffer, int * dsp, double * potato) {
 	double * hist2Ptr = history + 1;
 
 	// initial gain before going through each 2nd order IIR stage
-	acc_iir = gain*floatBuffer[*dsp];
+	acc_iir = gain * floatBuffer[*dsp];
 
 	for(i = 0; i < stages; i++ ) {
 
@@ -637,6 +639,7 @@ void formatInput(int * dsp, double * potato, double * floatBuffer){
 
     // format potentiometer input
     potValue = (double)rx2a_buf[0];	
+    //printf("delaySpeed = %f\n", potValue);
 
     return;
 }
@@ -645,7 +648,7 @@ void formatInput(int * dsp, double * potato, double * floatBuffer){
 
 void formatOutput(int * dsp, double * potato){
 
-	tx1a_buf[*dsp] = (int)*potato;
+	tx1a_buf[*dsp] = (int)(*potato);
 	tx1a_buf[*dsp] &= 0x00FFFFFF;	
 
 	*dsp = (*dsp + 1)%BUFFER_LENGTH;
