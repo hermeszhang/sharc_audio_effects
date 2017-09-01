@@ -1,0 +1,14 @@
+
+*.doj
+
+ece395SHARC/Debug/dmaTest\.dxe
+
+ece395SHARC/Debug/dmaTest\.log
+
+ece395SHARC/Debug/linker_log\.xml
+
+ece395SHARC/dmaTest\.dpj
+
+ece395SHARC/dmaTest\.mak
+
+ece395SHARC/dmaTest\.pcf
