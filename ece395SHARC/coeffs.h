@@ -1,6 +1,7 @@
-#define FILTER_LENGTH 64
+#ifndef _COEFFS_H
+#define _COEFFS_H
 
-// 0.008333
+#define FILTER_LENGTH 64
 
 double coeffs[64] = {
 
@@ -71,3 +72,4 @@ double coeffs[64] = {
 
 };
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef _COEFFSIIR_H
+#define _COEFFSIIR_H
+
 double coeffsIIR[10] = {
 
 	-0.716590,
@@ -18,3 +21,4 @@ double gain = 0.00323948552845727780;
 int stages = 2;
 double history[4] = {0.0};
 
+#endif
