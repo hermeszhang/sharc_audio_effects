@@ -64,9 +64,12 @@ void main(void) {
 		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) {
 			formatInput();
 			
-			delayWithFeedback(potValue);
-			iirFilter();
-			//firFilter();
+			//printf("delaySpeed: %lf\n", potValue);
+			potValue = (DELAY_LENGTH/1024)*potValue;
+			delayPrecisionFeedback(potValue);
+			//delayHarmonicWithFeedback(potValue);
+			//iirFilter();
+			firFilter();
 
 			formatOutput();			
 		}

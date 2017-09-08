@@ -7,7 +7,7 @@ double potato = 0.0;
 
 int delay_ptr = 0;
 int delay_counter = 0;
-double delay_buffer[2*DELAY_LENGTH] = {0.0};
+double delay_buffer[DELAY_LENGTH] = {0.0};
 
 int rx0a_buf[BUFFER_LENGTH] = {0};
 int tx1a_buf[BUFFER_LENGTH] = {0};

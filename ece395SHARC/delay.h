@@ -3,6 +3,7 @@
 
 #include "globals.h"
 
-void delayWithFeedback(int delaySpeed);
+void delayHarmonicWithFeedback(int delaySpeed);
+void delayPrecisionFeedback(int delaySpeed);
 
 #endif

@@ -1,6 +1,6 @@
 #include "delay.h"
 
-void delayWithFeedback(int delaySpeed) 
+void delayHarmonicWithFeedback(int delaySpeed) 
 {
 	// delay_ptr is putting what rx just took in into the delay_buffer.
 	// once the delay length is satisfied, dsp pointer is adding to the receive buffer what rx
@@ -27,4 +27,21 @@ void delayWithFeedback(int delaySpeed)
 	
 
     return;
+}
+
+
+void delayPrecisionFeedback(int delaySpeed)  {
+	//	delaySpeed is the modulus for the delay_buffer
+	if (delaySpeed < 100)
+		delaySpeed = 100;
+	
+	// load delay buffer with current input, used for wrap around delay
+	delay_buffer[delay_ptr] = (0.5 * delay_buffer[delay_ptr]) + float_buffer[dsp];
+
+	//  add delay to the current input, that's your output
+	float_buffer[dsp] = potato = delay_buffer[delay_ptr] + delay_buffer[(delay_ptr + 1) % delaySpeed];
+
+	delay_ptr = (delay_ptr + 1) % delaySpeed;
+
+	return;
 }

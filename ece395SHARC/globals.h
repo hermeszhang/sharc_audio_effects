@@ -1,7 +1,15 @@
 #ifndef _GLOBALS_H
 #define _GLOBALS_H
 
-#define DELAY_LENGTH 9600
+#include <stdio.h>
+
+
+// Precision Feedback Max Delay Length
+// #define MAX_DELAY 4096
+
+// 4096 = 2^12 = Pot Value Max
+#define DELAY_LENGTH 16384
+
 #define BUFFER_LENGTH 256
 #define POT_BUFFER_LENGTH 8
 
@@ -19,7 +27,6 @@
 extern double float_buffer[BUFFER_LENGTH];
 
 // ------------------------ DMA buffers ----------------- //
-
 
 // SPORT0 receive buffer a - also used for transmission
 extern int rx0a_buf[BUFFER_LENGTH];
@@ -64,7 +71,7 @@ extern int delay_ptr;
 // determines delay speed
 extern int delay_counter;
 // buffer for storing delay samples
-extern double delay_buffer[2*DELAY_LENGTH];
+extern double delay_buffer[DELAY_LENGTH];
 
 void delay(int times);
 
