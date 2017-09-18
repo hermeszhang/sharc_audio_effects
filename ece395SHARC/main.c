@@ -38,6 +38,7 @@ extern void initPLL_SDRAM(void);
 
 void main(void) {
 
+
 	initPLL_SDRAM();
 	initSPI(DS0EN);
 	initSRU();
@@ -64,12 +65,16 @@ void main(void) {
 		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) {
 			formatInput();
 			
-			//printf("delaySpeed: %lf\n", potValue);
-			potValue = (DELAY_LENGTH/1024)*potValue;
-			delayPrecisionFeedback(potValue);
-			//delayHarmonicWithFeedback(potValue);
-			//iirFilter();
-			firFilter();
+			// printf("oldData: %d\n", potValue);
+
+			// 8 seems to be best multiplier if potValue is 0 to 1023
+			delayLagrangeWithFeedback(potValue*16);
+
+			//potValue = (DELAY_LENGTH/1024)*potValue;
+			// delayPrecisionFeedback(16000);
+			// delayHarmonicWithFeedback(potValue);
+			iirFilter();
+			//firFilter();
 
 			formatOutput();			
 		}

@@ -10,7 +10,7 @@ void formatInput(void){
     float_buffer[dsp] = potato = (double)rx0a_buf[dsp];
 
     // format potentiometer input
-    potValue = (double)rx2a_buf[0];	
+    potValue = (int)rx2a_buf[0];	
 
     return;
 }

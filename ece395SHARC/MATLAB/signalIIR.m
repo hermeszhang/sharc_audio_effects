@@ -147,7 +147,7 @@ plot(n,output,'LineWidth',2);
 coeff_array = reshape(coeffs.',1,[]);
 
 
-theFileName = 'C:\wudtke_sconza_nunes\ece395SHARC\coeffsIIR.h';
+theFileName = 'C:\wudtke_sconza_nunes\fallSHARC\ece395SHARC\coeffsIIR.h';
 theFile = fopen(theFileName,'wt');
 
 %fprintf(theFile,'#define N %d\n\n',N);

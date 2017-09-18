@@ -1,5 +1,9 @@
 #include "delay.h"
 
+#define N 3         
+double h[N] = {0.3750, 0.7500, -0.1250};
+float d = 0.0;
+
 void delayHarmonicWithFeedback(int delaySpeed) 
 {
 	// delay_ptr is putting what rx just took in into the delay_buffer.
@@ -42,6 +46,75 @@ void delayPrecisionFeedback(int delaySpeed)  {
 	float_buffer[dsp] = potato = delay_buffer[delay_ptr] + delay_buffer[(delay_ptr + 1) % delaySpeed];
 
 	delay_ptr = (delay_ptr + 1) % delaySpeed;
+
+	return;
+}
+
+void delayLagrangeNoFeedback(int potVal) {
+
+	if (potVal <= 1)
+		potVal = 2;
+
+	d = d + (float)(potVal - d) / (48 * 20);
+
+	//if (potVal == DELAY)
+
+	int i = 0;
+	double interpolated = 0.0;
+
+	// load delay with current input (for next time)
+	delay_buffer[delay_ptr] = float_buffer[dsp];
+
+	// convolution of input (going forwards) and coeffs (going backwards)
+	for (i = 0 ; i < N; i++)
+		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
+
+	// interpolated = delay_buffer[(delay_ptr + d) % DELAY_LENGTH];
+
+	// add old data to current data
+	float_buffer[dsp] = potato = delay_buffer[delay_ptr] + interpolated;
+
+	delay_ptr = (delay_ptr + 1) % DELAY_LENGTH;
+
+	return;
+}
+
+/**
+  * 
+  * 
+  * 
+  * 
+  */
+void delayLagrangeWithFeedback(int potVal) {
+
+	if (potVal <= 1)
+		potVal = 2;
+
+	// d is the contiually updating value of delay, based on
+	// a slope from the old value to a desired target value
+	// note: the slope ensures that the target value will be
+	// reached in 48 * 20 samples, which corresponds to 
+	// 20ms at a sample rate of 48000 Hz
+	d = d + (float)(potVal - d) / (48 * 20);
+
+	int i = 0;
+	double interpolated = 0.0;
+	int dn = (delay_ptr + (int)d) % DELAY_LENGTH;
+
+	// convolution of input (going forwards) and coeffs (going backwards)
+	for (i = 0 ; i < N; i++)
+		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
+
+	// load delay with current input (for next time)
+	delay_buffer[delay_ptr] = 0.7 * interpolated + float_buffer[dsp];
+
+	// the following line works if lagrange interpolation is not desired
+	// delay_buffer[delay_ptr] = 0.7 * delay_buffer[dn] + float_buffer[dsp];
+
+	// add old data to current data
+	float_buffer[dsp] = potato = delay_buffer[delay_ptr];
+
+	delay_ptr = (delay_ptr + 1) % DELAY_LENGTH;
 
 	return;
 }

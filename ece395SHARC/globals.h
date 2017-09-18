@@ -8,7 +8,7 @@
 // #define MAX_DELAY 4096
 
 // 4096 = 2^12 = Pot Value Max
-#define DELAY_LENGTH 16384
+#define DELAY_LENGTH 32768
 
 #define BUFFER_LENGTH 256
 #define POT_BUFFER_LENGTH 8
@@ -65,7 +65,9 @@ extern int dsp;
 extern double potato;
 
 // ------------------------ delay globals --------------- //
-extern double potValue;
+extern int potValue;
+extern int potValuePrev1;
+extern int potValuePrev2;
 // delay buffer index
 extern int delay_ptr;
 // determines delay speed

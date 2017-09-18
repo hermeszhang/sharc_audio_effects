@@ -22,7 +22,9 @@ int rx2a_tcb[8]  = {0,0,0,0, 0, POT_BUFFER_LENGTH, 1, 0};
 	
 int auxDivisor = 0;
 
-double potValue = 0.0;
+int potValue = 0;
+int potValuePrev1 = 0;
+int potValuePrev2 = 0;
 
 void delay(int times)
 {

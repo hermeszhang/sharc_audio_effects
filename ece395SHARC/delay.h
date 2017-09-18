@@ -5,5 +5,7 @@
 
 void delayHarmonicWithFeedback(int delaySpeed);
 void delayPrecisionFeedback(int delaySpeed);
+void delayLagrangeNoFeedback(int potVal);
+void delayLagrangeWithFeedback(int potVal);
 
 #endif
