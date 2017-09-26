@@ -14,6 +14,9 @@
 #include "firFilter.h"
 #include "iirFilter.h"
 #include "format.h"
+#include "muxSelect.h"
+#include "readPotValues.h"
+#include "readPotValues.h"
 
 // Addresses
 #define AK4396_ADDR    (0x00)
@@ -61,14 +64,31 @@ void main(void) {
 	initSPDIF();
 	initPCGA();
 
+	initADCSPI(DS1EN);
+
+	int selectCounter = 0;
+
 	while(1){
-		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) {
+		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
+		{
 			formatInput();
+
+			selectCounter = selectCounter % 2;
+			muxSelect(selectCounter);
+			potArray[selectCounter] = readPotValues();
+			selectCounter++;
+			// toggle ^= 1;	// change toggle bit
+
+			//printf("potArray = %d\t %d\n",potArray[0], potArray[1]);
 			
+
+			//printf("potValue = %d\n", potValue);
+
+			// SRU(b0 == 1 ? HIGH : LOW, DAI_PB13_I);
 			// printf("oldData: %d\n", potValue);
 
 			// 8 seems to be best multiplier if potValue is 0 to 1023
-			delayLagrangeWithFeedback(potValue*16);
+			delayLagrangeWithFeedback();
 
 			//potValue = (DELAY_LENGTH/1024)*potValue;
 			// delayPrecisionFeedback(16000);

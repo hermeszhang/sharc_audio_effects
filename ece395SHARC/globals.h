@@ -8,17 +8,19 @@
 // #define MAX_DELAY 4096
 
 // 4096 = 2^12 = Pot Value Max
-#define DELAY_LENGTH 32768
+#define DELAY_LENGTH 16384
 
 #define BUFFER_LENGTH 256
-#define POT_BUFFER_LENGTH 8
+#define POT_BUFFER_LENGTH 2
 
 // ADC PCG register settings
 // (24.576 MHz)/(desired freq) = clock divider
 // clk and fs are totally indpendent of one another
 // frame sync should be every 16 clocks of sample clock as per data sheet
 #define CLK_DIVIDER 768	
-#define FS_DIVIDER 24576	
+#define FS_DIVIDER 24576
+
+#define NUM_POTS 2	
 
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
@@ -33,9 +35,6 @@ extern int rx0a_buf[BUFFER_LENGTH];
 
 // SPORT1 transmit buffer	
 extern int tx1a_buf[BUFFER_LENGTH];
-
-// SPORT2 receive buffer for pot values
-extern int rx2a_buf[POT_BUFFER_LENGTH];
 
 /* 
 TCB format:       ECx (length of destination buffer),
@@ -53,10 +52,7 @@ TCB format:       ECx (length of destination buffer),
 extern int rx0a_tcb[8];				// SPORT0 receive a tcb from SPDIF
 extern int tx1a_tcb[8];				// SPORT1 transmit a tcb to DAC
 
-extern int tx1a_delay_tcb[8];	// SPORT1 transmit a tcb to DAC
-
-extern int rx2a_tcb[8];			// SPSORT2 receive for pot values
-	
+extern int tx1a_delay_tcb[8];	// SPORT1 transmit a tcb to DAC	
 
 // ------------------------ general globals ------------- //
 // main processing index
@@ -68,6 +64,9 @@ extern double potato;
 extern int potValue;
 extern int potValuePrev1;
 extern int potValuePrev2;
+
+extern int potArray[NUM_POTS];
+
 // delay buffer index
 extern int delay_ptr;
 // determines delay speed

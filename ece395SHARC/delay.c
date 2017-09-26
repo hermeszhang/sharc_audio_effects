@@ -3,6 +3,7 @@
 #define N 3         
 double h[N] = {0.3750, 0.7500, -0.1250};
 float d = 0.0;
+float feedback = 0.0;
 
 void delayHarmonicWithFeedback(int delaySpeed) 
 {
@@ -55,7 +56,7 @@ void delayLagrangeNoFeedback(int potVal) {
 	if (potVal <= 1)
 		potVal = 2;
 
-	d = d + (float)(potVal - d) / (48 * 20);
+	d = d + (float)(potVal - d) / (48 * 200);
 
 	//if (potVal == DELAY)
 
@@ -80,22 +81,27 @@ void delayLagrangeNoFeedback(int potVal) {
 }
 
 /**
-  * 
-  * 
+  *  potArray is global. potArray[0] is delay time, potArray[1] is feedback
+  *  
   * 
   * 
   */
-void delayLagrangeWithFeedback(int potVal) {
+void delayLagrangeWithFeedback(void) {
 
-	if (potVal <= 1)
-		potVal = 2;
+	//if (potVal <= 1)
+	//	potVal = 2;
+
+
 
 	// d is the contiually updating value of delay, based on
 	// a slope from the old value to a desired target value
 	// note: the slope ensures that the target value will be
 	// reached in 48 * 20 samples, which corresponds to 
 	// 20ms at a sample rate of 48000 Hz
-	d = d + (float)(potVal - d) / (48 * 20);
+	d = d + (float)(potArray[0] - d) / (48 * 20);
+
+	feedback = (float)potArray[1]/4095.0;
+
 
 	int i = 0;
 	double interpolated = 0.0;
@@ -106,7 +112,7 @@ void delayLagrangeWithFeedback(int potVal) {
 		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
 
 	// load delay with current input (for next time)
-	delay_buffer[delay_ptr] = 0.7 * interpolated + float_buffer[dsp];
+	delay_buffer[delay_ptr] = feedback * interpolated + float_buffer[dsp];
 
 	// the following line works if lagrange interpolation is not desired
 	// delay_buffer[delay_ptr] = 0.7 * delay_buffer[dn] + float_buffer[dsp];

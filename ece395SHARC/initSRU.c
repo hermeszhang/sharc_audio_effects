@@ -69,33 +69,39 @@ void initSRU() {
 
 	/* -- outputs from SHARC to inputs on ADC board -- */
 
-	// CLKA_O to DAI 15 (sample clock for potentiometer ADC)
-	SRU(PCG_CLKA_O, DAI_PB15_I);
-	SRU(HIGH, PBEN15_I);
+	//CSN
+	SRU2(SPI_FLG1_O, DPI_PB08_I);
+    SRU2(SPI_FLG1_PBEN_O, DPI_PBEN08_I);
 
-	// chip select (active low) output on DAI 08
-	SRU(PCG_FSA_O, DAI_PB08_I);
-	SRU(HIGH, DAI_PBEN08_I);
+	//Set MOSI/CDT1 to output
+	SRU2(DPI_PB10_O, SPI_MISO_I);
+	SRU2(LOW, DPI_PBEN10_I);
+	
+	//Send SPI clock to DPI 3
+	SRU2(SPI_CLK_O, DPI_PB11_I);
+	SRU2(SPI_CLK_PBEN_O, DPI_PBEN11_I);
 
-	/* -- inputs to SHARC SPORT 2A from ADC board -- */
+	// 3 select values for analog mux
 
-	// connect SPORT2A clock and frame sync with PCG clock
-	SRU(PCG_CLKA_O, SPORT2_CLK_I); 
-	SRU(PCG_FSA_O, SPORT2_FS_I);	
+	// SRU(PCG_FSA_O, SPORT3_DA_I)
 
-	// sampled potentiometer value physically wired to DAI 14
-	// connect DAI 14 to SPORT2A's data input
-	SRU(LOW, DAI_PB14_I);
-	SRU(LOW, DAI_PBEN14_I);
-	SRU(DAI_PB14_O, SPORT2_DA_I);
+	// SELECT A
+	SRU(LOW, DAI_PB11_I);
+	SRU(HIGH, DAI_PBEN11_I);
+
+	// SELECT B
+	SRU(LOW, DAI_PB10_I);
+	SRU(HIGH, DAI_PBEN10_I);
+
+	// SELECT C
+	SRU(LOW, DAI_PB13_I);
+	SRU(HIGH, DAI_PBEN13_I);	
 	
 	/* ---------- DEBUG -------------- */
 	
-	SRU(PCG_CLKA_O, DAI_PB09_I);
-	SRU(HIGH, PBEN09_I);
+	// SRU(SPI_CLK_O, DAI_PB09_I);
+	// SRU(HIGH, PBEN09_I);
 
-	SRU(PCG_FSA_O, DAI_PB11_I);
-	SRU(HIGH, PBEN11_I);
 }
 
 void clearDAIpins(void) {

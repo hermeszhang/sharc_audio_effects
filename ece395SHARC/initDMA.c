@@ -34,15 +34,6 @@ void initDMA() {
 	//*pCPSP1A = ((int) tx1a_delay_tcb  + 7) & 0x7FFFF | (1<<19);
 	*pCPSP1A = ((int) tx1a_tcb  + 7) & 0x7FFFF | (1<<19);
 
-	/* ------------- POTENTIOMETER DMA ------------------------- */
-	// where pot storage buffer fills next (itself)
-	rx2a_tcb[4] = ((int) rx2a_tcb + 7) & 0x7FFFF | (1<<19);
-	// where pot strage buffer fills
-	rx2a_tcb[7] = (unsigned int) rx2a_buf;
-
-	// where SPORT2 fills first (and always)
-	*pCPSP2A = ((int) rx2a_tcb + 7) & 0x7FFFF | (1<<19);
-
 
 	// SPORT0 as receiver
 	*pSPCTL0 = 	SPEN_A | 	// enable channel A
@@ -60,15 +51,5 @@ void initDMA() {
 				OPMODE | 	// enable I2S mode 
 				L_FIRST | 	// I2S sends left first
 				SLEN24 | 	// 24-bit word length
-				SPTRAN;		// set as transmitter
-	
-	// SPORT2 as receiver (sampled pot values) 
-	*pSPCTL2 = 	SPEN_A | 	// enable channel A
-				SDEN_A |	// enable channel A DMA
-				SCHEN_A | 	// enable channel A DMA chaining
-				OPMODE |	// enable I2S mode 
-				L_FIRST | 	// I2S sends left first
-				SLEN12; 	// 24-bit word length
-
-				
+				SPTRAN;		// set as transmitter			
 }

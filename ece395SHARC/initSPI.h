@@ -8,5 +8,6 @@
 
 
 void initSPI(unsigned int SPI_Flag);
+void initADCSPI(unsigned int SPI_Flag);
 
 #endif
