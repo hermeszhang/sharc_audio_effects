@@ -8,7 +8,7 @@
 // #define MAX_DELAY 4096
 
 // 4096 = 2^12 = Pot Value Max
-#define DELAY_LENGTH 16384
+#define DELAY_LENGTH 32768
 
 #define BUFFER_LENGTH 256
 #define POT_BUFFER_LENGTH 2

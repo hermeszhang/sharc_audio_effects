@@ -46,6 +46,8 @@ void main(void) {
 	initSPI(DS0EN);
 	initSRU();
 
+	initCounter();
+
 	configAK4396(AK4396_CTRL2, AK4396_CTRL2_DEF);
 	delay(10);
 	//Set the reset so that the device is ready to initialize registers.
@@ -66,37 +68,37 @@ void main(void) {
 
 	initADCSPI(DS1EN);
 
-	int selectCounter = 0;
+	int selectCounter = 1;
+	int toggle = 0;
+	int potArray_0, potArray_1;
 
 	while(1){
+
 		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
 		{
 			formatInput();
 
-			selectCounter = selectCounter % 2;
-			muxSelect(selectCounter);
-			potArray[selectCounter] = readPotValues();
-			selectCounter++;
-			// toggle ^= 1;	// change toggle bit
+			toggle++;
 
-			//printf("potArray = %d\t %d\n",potArray[0], potArray[1]);
-			
+			if (toggle % 2 == 0) {
+				selectCounter = selectCounter % NUM_POTS;
+				potArray[selectCounter] = readPotValues();
+				potArray_0 = potArray[0];
+				potArray_1 = potArray[1];
+				// printf("select: %d\tch.0: %d\tch.1: %d\n", selectCounter, potArray[0], potArray[1]);
+				selectCounter++;
+			} else {
+				readPotValues();
+			}
 
-			//printf("potValue = %d\n", potValue);
 
-			// SRU(b0 == 1 ? HIGH : LOW, DAI_PB13_I);
-			// printf("oldData: %d\n", potValue);
-
-			// 8 seems to be best multiplier if potValue is 0 to 1023
 			delayLagrangeWithFeedback();
 
-			//potValue = (DELAY_LENGTH/1024)*potValue;
-			// delayPrecisionFeedback(16000);
-			// delayHarmonicWithFeedback(potValue);
-			iirFilter();
+			//iirFilter();
 			//firFilter();
 
 			formatOutput();			
 		}
+		
 	}  
 }

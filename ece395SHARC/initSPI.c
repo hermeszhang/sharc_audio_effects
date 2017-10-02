@@ -5,7 +5,7 @@ void initSPI(unsigned int SPI_Flag)
 {
 	// Configure the SPI Control registers
     // First clear a few registers
-    *pSPICTL  =(TXFLSH | RXFLSH) ; //Clear TXSPI and RXSPI
+    *pSPICTL = (TXFLSH | RXFLSH) ; //Clear TXSPI and RXSPI
     *pSPIFLG = 0; //Clear the slave select
 
     //BAUDR is bits 15-1 and 0 is reserved
@@ -33,17 +33,19 @@ void initADCSPI(unsigned int SPI_Flag)
     // Configure the SPI Control registers
     // First clear a few registers
     *pSPICTL = (TXFLSH | RXFLSH) ; //Clear TXSPI and RXSPI
+
     *pSPIFLG = 0; //Clear the slave select
 
     //BAUDR is bits 15-1 and 0 is reserved
-    *pSPIBAUD = 25;   //SPICLK baud rate = PCLK / (4*BAUDR)
+    // frame clock is 62.5 ksps 
+    *pSPIBAUD = 32;   //SPICLK baud rate = PCLK / (4*BAUDR)
     //PCLK = 200MHz and 200MHz/100 = 2 MHz? - double check this...
 
     // Setup the SPI Flag register using the Flag specified in the call
     *pSPIFLG = (0xF00|SPI_Flag);
 
     // Now setup the SPI Control register
-    *pSPICTL = (SPIEN | SPIMS | WL16 | MSBF | CLKPL | GM);
+    *pSPICTL = (SPIEN | SPIMS | WL16 | MSBF | TIMOD1 | CLKPL);
     
     // SPIEN - SPI System Enable
     // SPIMS - Master Slave Mode Bit - 1 indicates we are a master device

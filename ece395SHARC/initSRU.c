@@ -69,15 +69,15 @@ void initSRU() {
 
 	/* -- outputs from SHARC to inputs on ADC board -- */
 
-	//CSN
+	//CSN - sample (frame) clock
 	SRU2(SPI_FLG1_O, DPI_PB08_I);
     SRU2(SPI_FLG1_PBEN_O, DPI_PBEN08_I);
 
-	//Set MOSI/CDT1 to output
+	// Get MISO from ADC
 	SRU2(DPI_PB10_O, SPI_MISO_I);
-	SRU2(LOW, DPI_PBEN10_I);
+	SRU2(SPI_MISO_PBEN_O, DPI_PBEN10_I);
 	
-	//Send SPI clock to DPI 3
+	//Send SPI clock to DPI 11 - bit clock (16 * sample clock)
 	SRU2(SPI_CLK_O, DPI_PB11_I);
 	SRU2(SPI_CLK_PBEN_O, DPI_PBEN11_I);
 
@@ -97,11 +97,26 @@ void initSRU() {
 	SRU(LOW, DAI_PB13_I);
 	SRU(HIGH, DAI_PBEN13_I);	
 	
+	// clear signal for counter chip
+	SRU(HIGH, DAI_PB15_I);
+	SRU(HIGH, DAI_PBEN15_I);
+
 	/* ---------- DEBUG -------------- */
 	
 	// SRU(SPI_CLK_O, DAI_PB09_I);
 	// SRU(HIGH, PBEN09_I);
 
+}
+
+void initCounter(void) {
+
+	delay(100);
+	
+	SRU(LOW, DAI_PB15_I);
+
+	delay(100);
+
+	SRU(HIGH, DAI_PB15_I);
 }
 
 void clearDAIpins(void) {

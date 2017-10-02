@@ -10,5 +10,6 @@
 #include "globals.h"
 
 void initSRU(void);
+void initCounter(void);
 
 #endif

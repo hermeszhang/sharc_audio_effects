@@ -8,10 +8,6 @@ void muxSelect(int selectCounter) {
 	b1 = (selectCounter & 0x00000002) >> 1;
 	b2 = (selectCounter & 0x00000004) >> 2;
 	
-	//SRU(LOW, DAI_PB11_I);
-	//SRU(LOW, DAI_PB10_I);
-	//SRU(LOW, DAI_PB13_I);
-	
 	if (b0)
 		SRU(HIGH, DAI_PB11_I);
 	else
@@ -26,10 +22,9 @@ void muxSelect(int selectCounter) {
 		SRU(HIGH, DAI_PB13_I);
 	else
 		SRU(LOW, DAI_PB13_I);
-	
-	
 
+	// delay(10000);
 
-	// printf("b2b1b0 = %d%d%d\n", b2, b1, b0);
+	//printf("b2b1b0 = %d%d%d\n", b2, b1, b0);
 
 }
