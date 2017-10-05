@@ -16,7 +16,7 @@
 #include "format.h"
 #include "muxSelect.h"
 #include "readPotValues.h"
-#include "readPotValues.h"
+#include "pingCounter.h"
 
 // Addresses
 #define AK4396_ADDR    (0x00)
@@ -68,8 +68,7 @@ void main(void) {
 
 	initADCSPI(DS1EN);
 
-	int selectCounter = 1;
-	int toggle = 0;
+	int selectCounter = 0;
 	int potArray_0, potArray_1;
 
 	while(1){
@@ -78,22 +77,18 @@ void main(void) {
 		{
 			formatInput();
 
-			toggle++;
+			potArray[selectCounter] = readPotValues();
+			pingCounter();
+			selectCounter = (selectCounter + 1) % NUM_POTS;
 
-			if (toggle % 2 == 0) {
-				selectCounter = selectCounter % NUM_POTS;
-				potArray[selectCounter] = readPotValues();
-				potArray_0 = potArray[0];
-				potArray_1 = potArray[1];
-				// printf("select: %d\tch.0: %d\tch.1: %d\n", selectCounter, potArray[0], potArray[1]);
-				selectCounter++;
-			} else {
-				readPotValues();
-			}
+			potArray_0 = potArray[0];
+			potArray_1 = potArray[1];
 
+			// printf("select: %d\tch.0: %d\tch.1: %d\n", selectCounter, potArray[0], potArray[1]);
 
 			delayLagrangeWithFeedback();
 
+			// potTesting();
 			//iirFilter();
 			//firFilter();
 

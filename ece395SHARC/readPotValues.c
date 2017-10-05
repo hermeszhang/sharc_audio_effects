@@ -11,10 +11,13 @@ int readPotValues(void)
 	*pTXSPI = 0x0;
 	
 	//Wait for the SPI to indicate that it has finished.
+	while (!(*pSPISTAT & SPIFE))
+		
+	//Wait for the SPI to indicate that it has finished.
     while ((*pSPISTAT & RXS))
 
     //Wait for the SPI to indicate that it has finished.
-    while (!(*pSPISTAT & SPIFE))
+    // while (!(*pSPISTAT & SPIFE))
 
    	retVal = *pRXSPI;
 

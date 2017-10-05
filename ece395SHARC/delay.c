@@ -93,10 +93,10 @@ void delayLagrangeWithFeedback(void) {
 	//	potVal = 2;
 
 	if (potArray[0] < 30)
-		potArray[0] = 0;
+		potArray[0] = 30;
 
 	if (potArray[1] < 30)
-		potArray[1] = 0;
+		potArray[1] = 30;
 
 
 	// d is the continually updating value of delay, based on
@@ -118,7 +118,7 @@ void delayLagrangeWithFeedback(void) {
 		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
 
 	// load delay with current input (for next time)
-	delay_buffer[delay_ptr] = 0.7 * interpolated + float_buffer[dsp];
+	delay_buffer[delay_ptr] = feedback * interpolated + float_buffer[dsp];
 
 	// the following line works if lagrange interpolation is not desired
 	// delay_buffer[delay_ptr] = 0.7 * delay_buffer[dn] + float_buffer[dsp];
@@ -127,6 +127,29 @@ void delayLagrangeWithFeedback(void) {
 	float_buffer[dsp] = potato = delay_buffer[delay_ptr];
 
 	delay_ptr = (delay_ptr + 1) % DELAY_LENGTH;
+
+	return;
+}
+
+void potTesting(void) {
+
+	//if (potVal <= 1)
+	//	potVal = 2;
+
+	if (potArray[0] < 1)
+		potArray[0] = 1;
+
+	if (potArray[1] < 1)
+		potArray[1] = 1;
+
+
+	float_buffer[dsp] = potato = float_buffer[dsp] * ((float)potArray[0] / 4095.0);
+
+	// printf("potArray[0] math = %0.2f\n", ((float)potArray[0] / 4095.0));
+
+	float_buffer[dsp] = potato = float_buffer[dsp] * ((4095.0 - (float)potArray[1]) / 4095.0);
+
+	// printf("potArray[0] math = %0.2f\tpotArray[1] math = %0.2f\n", ((float)potArray[0] / 4095.0), ((4095.0 - (float)potArray[1])) / 4095.0);
 
 	return;
 }

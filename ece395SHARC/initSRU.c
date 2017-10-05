@@ -81,23 +81,11 @@ void initSRU() {
 	SRU2(SPI_CLK_O, DPI_PB11_I);
 	SRU2(SPI_CLK_PBEN_O, DPI_PBEN11_I);
 
-	// 3 select values for analog mux
-
-	// SRU(PCG_FSA_O, SPORT3_DA_I)
-
-	// SELECT A
-	SRU(LOW, DAI_PB11_I);
-	SRU(HIGH, DAI_PBEN11_I);
-
-	// SELECT B
+	// pingCounter line
 	SRU(LOW, DAI_PB10_I);
 	SRU(HIGH, DAI_PBEN10_I);
-
-	// SELECT C
-	SRU(LOW, DAI_PB13_I);
-	SRU(HIGH, DAI_PBEN13_I);	
 	
-	// clear signal for counter chip
+	// load signal for counter chip
 	SRU(HIGH, DAI_PB15_I);
 	SRU(HIGH, DAI_PBEN15_I);
 
