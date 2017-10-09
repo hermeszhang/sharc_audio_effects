@@ -1,10 +1,16 @@
 #include "delay.h"
 
-#define N 3         
+// number of interpolation coefficients
+#define N 3
 
 double h[N] = {0.3750, 0.7500, -0.1250};
 float d = 0.0;
 float feedback = 0.0;
+float FF = 0.7;
+float FB = 0.5;
+float BL = 1.0;
+int writeIDX = 0;
+int readIDX = 0;
 
 void delayHarmonicWithFeedback(int delaySpeed) 
 {
@@ -98,15 +104,17 @@ void delayLagrangeWithFeedback(void) {
 	if (potArray[1] < 30)
 		potArray[1] = 30;
 
-
 	// d is the continually updating value of delay, based on
 	// a slope from the old value to a desired target value
 	// note: the slope ensures that the target value will be
 	// reached in 48 * 20 samples, which corresponds to 
 	// 20ms at a sample rate of 48000 Hz
-	d = d + (float)(potArray[0] - d) / (24 * 200);
+	float d0 = potArray[0] * 3.0;
 
-	feedback = (float)potArray[1]/4095.0;
+	// printf("ch.0: %d\tch.1: %d\n", potArray[0], potArray[1]);
+	d = d + (float)(d0 - d) / (48 * 300);
+
+	feedback = ((float)potArray[1])/4095.0;
 
 
 	int i = 0;
@@ -121,7 +129,7 @@ void delayLagrangeWithFeedback(void) {
 	delay_buffer[delay_ptr] = feedback * interpolated + float_buffer[dsp];
 
 	// the following line works if lagrange interpolation is not desired
-	// delay_buffer[delay_ptr] = 0.7 * delay_buffer[dn] + float_buffer[dsp];
+	// delay_buffer[delay_ptr] = feedback * delay_buffer[dn] + float_buffer[dsp];
 
 	// add old data to current data
 	float_buffer[dsp] = potato = delay_buffer[delay_ptr];
@@ -131,16 +139,32 @@ void delayLagrangeWithFeedback(void) {
 	return;
 }
 
+void delayFromIEEE(void) {
+	FB = ((float)potArray[1])/4095.0;
+
+	int delayVal = DELAY_LENGTH / 2;
+
+	delay_buffer[writeIDX] = potato + FB * delay_buffer[readIDX];
+
+	potato = BL * potato + FF * delay_buffer[readIDX];
+
+	writeIDX = (writeIDX + 1) % DELAY_LENGTH;
+
+	readIDX = (writeIDX + delayVal) % DELAY_LENGTH;
+
+	return;
+}
+
 void potTesting(void) {
 
 	//if (potVal <= 1)
 	//	potVal = 2;
 
-	if (potArray[0] < 1)
-		potArray[0] = 1;
+	// if (potArray[0] < 1)
+	// 	potArray[0] = 1;
 
-	if (potArray[1] < 1)
-		potArray[1] = 1;
+	// if (potArray[1] < 1)
+	// 	potArray[1] = 1;
 
 
 	float_buffer[dsp] = potato = float_buffer[dsp] * ((float)potArray[0] / 4095.0);

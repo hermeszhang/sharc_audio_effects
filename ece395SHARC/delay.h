@@ -8,5 +8,6 @@ void delayPrecisionFeedback(int delaySpeed);
 void delayLagrangeNoFeedback(int potVal);
 void delayLagrangeWithFeedback(void);
 void potTesting(void);
+void delayFromIEEE(void);
 
 #endif

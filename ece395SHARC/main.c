@@ -70,6 +70,9 @@ void main(void) {
 
 	int selectCounter = 0;
 	int potArray_0, potArray_1;
+	int toggle = 0;
+	// int potValueArray[120][2];
+	// int potValPtr = 0;
 
 	while(1){
 
@@ -77,16 +80,28 @@ void main(void) {
 		{
 			formatInput();
 
-			potArray[selectCounter] = readPotValues();
-			pingCounter();
-			selectCounter = (selectCounter + 1) % NUM_POTS;
+			if (toggle == 1500) {
+				potArray[selectCounter] = readPotValues();
+				pingCounter();
+				selectCounter = (selectCounter + 1) % NUM_POTS;
 
-			potArray_0 = potArray[0];
-			potArray_1 = potArray[1];
+				// potArray_0 = potArray[0];
+				// potArray_1 = potArray[1];
+
+				// potValueArray[potValPtr][0] = potArray[0];
+				// potValueArray[potValPtr][1] = potArray[1];
+
+				// potValPtr = (potValPtr + 1) % 120;
+				toggle = 0;
+			}
+
+			toggle++;
+
 
 			// printf("select: %d\tch.0: %d\tch.1: %d\n", selectCounter, potArray[0], potArray[1]);
 
 			delayLagrangeWithFeedback();
+			// delayFromIEEE();
 
 			// potTesting();
 			//iirFilter();
