@@ -4,11 +4,11 @@
 #define N 3
 
 double h[N] = {0.3750, 0.7500, -0.1250};
-float d = 0.0;
-float feedback = 0.0;
-float FF = 0.7;
-float FB = 0.5;
-float BL = 1.0;
+double d = 0.0;
+double feedback = 0.0;
+double FF = 0.7;
+double FB = 0.5;
+double BL = 1.0;
 int writeIDX = 0;
 int readIDX = 0;
 
@@ -139,18 +139,34 @@ void delayLagrangeWithFeedback(void) {
 	return;
 }
 
-void delayFromIEEE(void) {
-	FB = ((float)potArray[1])/4095.0;
+void delayFromIEEE(double delayVal, double feedbackIn) {
 
-	int delayVal = DELAY_LENGTH / 2;
+	int i = 0;
+	double interpolated = 0.0;
+
+	// delayVal = ((4095 - delayVal) * ((DELAY_LENGTH - 1)/4095.0));
+
+	// if (delayVal < 5000)
+	// 	delayVal = 5000;
+
+	FB = feedbackIn/4095.0;
+	// FB = 0.7;
+
+	// convolution of input (going forwards) and coeffs (going backwards)
+	// for (i = 0 ; i < N; i++)
+	// 	interpolated += delay_buffer[(readIDX - N/2 + i) % DELAY_LENGTH] * h[N - 1 - i];
 
 	delay_buffer[writeIDX] = potato + FB * delay_buffer[readIDX];
 
 	potato = BL * potato + FF * delay_buffer[readIDX];
 
+	// delay_buffer[writeIDX] = potato + FB * interpolated;
+
+	// potato = BL * potato + FF * interpolated;
+
 	writeIDX = (writeIDX + 1) % DELAY_LENGTH;
 
-	readIDX = (writeIDX + delayVal) % DELAY_LENGTH;
+	readIDX = (writeIDX + (int)delayVal) % DELAY_LENGTH;
 
 	return;
 }

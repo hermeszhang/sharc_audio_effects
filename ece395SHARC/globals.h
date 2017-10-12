@@ -25,6 +25,8 @@
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
 
+#define TOGGLE_TIME 1200
+
 // buffer for storing floats	
 extern double float_buffer[BUFFER_LENGTH];
 
