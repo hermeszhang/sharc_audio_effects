@@ -3,6 +3,6 @@
 
 #include "globals.h"
 
-void iirFilter(void);
+double iirFilter(double x);
 
 #endif

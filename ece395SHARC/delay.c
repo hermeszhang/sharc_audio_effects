@@ -6,9 +6,9 @@
 double h[N] = {0.3750, 0.7500, -0.1250};
 double d = 0.0;
 double feedback = 0.0;
-double FF = 0.7;
+double FF = 0.5;
 double FB = 0.5;
-double BL = 1.0;
+double BL = 0.5;
 int writeIDX = 0;
 int readIDX = 0;
 
@@ -42,50 +42,8 @@ void delayHarmonicWithFeedback(int delaySpeed)
 }
 
 
-void delayPrecisionFeedback(int delaySpeed)  {
-	//	delaySpeed is the modulus for the delay_buffer
-	if (delaySpeed < 100)
-		delaySpeed = 100;
-	
-	// load delay buffer with current input, used for wrap around delay
-	delay_buffer[delay_ptr] = (0.5 * delay_buffer[delay_ptr]) + float_buffer[dsp];
 
-	//  add delay to the current input, that's your output
-	float_buffer[dsp] = potato = delay_buffer[delay_ptr] + delay_buffer[(delay_ptr + 1) % delaySpeed];
 
-	delay_ptr = (delay_ptr + 1) % delaySpeed;
-
-	return;
-}
-
-void delayLagrangeNoFeedback(int potVal) {
-
-	if (potVal <= 1)
-		potVal = 2;
-
-	d = d + (float)(potVal - d) / (48 * 200);
-
-	//if (potVal == DELAY)
-
-	int i = 0;
-	double interpolated = 0.0;
-
-	// load delay with current input (for next time)
-	delay_buffer[delay_ptr] = float_buffer[dsp];
-
-	// convolution of input (going forwards) and coeffs (going backwards)
-	for (i = 0 ; i < N; i++)
-		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
-
-	// interpolated = delay_buffer[(delay_ptr + d) % DELAY_LENGTH];
-
-	// add old data to current data
-	float_buffer[dsp] = potato = delay_buffer[delay_ptr] + interpolated;
-
-	delay_ptr = (delay_ptr + 1) % DELAY_LENGTH;
-
-	return;
-}
 
 /**
   *  potArray is global. potArray[0] is delay time, potArray[1] is feedback
@@ -144,19 +102,20 @@ void delayFromIEEE(double delayVal, double feedbackIn) {
 	int i = 0;
 	double interpolated = 0.0;
 
-	// delayVal = ((4095 - delayVal) * ((DELAY_LENGTH - 1)/4095.0));
+	delayVal = (4095.0*2.0 - delayVal);
+	delayVal += 0.0*4096.0;
 
 	// if (delayVal < 5000)
 	// 	delayVal = 5000;
 
-	FB = feedbackIn/4095.0;
+	FB = feedbackIn/(4095.0*2.0);
 	// FB = 0.7;
 
 	// convolution of input (going forwards) and coeffs (going backwards)
 	// for (i = 0 ; i < N; i++)
 	// 	interpolated += delay_buffer[(readIDX - N/2 + i) % DELAY_LENGTH] * h[N - 1 - i];
-
-	delay_buffer[writeIDX] = potato + FB * delay_buffer[readIDX];
+	
+	delay_buffer[writeIDX] = iirFilter(potato + FB * delay_buffer[readIDX]);
 
 	potato = BL * potato + FF * delay_buffer[readIDX];
 
@@ -168,6 +127,8 @@ void delayFromIEEE(double delayVal, double feedbackIn) {
 
 	readIDX = (writeIDX + (int)delayVal) % DELAY_LENGTH;
 
+	float_buffer[dsp] = potato;
+	
 	return;
 }
 

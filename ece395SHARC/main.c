@@ -46,8 +46,6 @@ void main(void) {
 	initSPI(DS0EN);
 	initSRU();
 
-	initCounter();
-
 	configAK4396(AK4396_CTRL2, AK4396_CTRL2_DEF);
 	delay(10);
 	//Set the reset so that the device is ready to initialize registers.
@@ -68,6 +66,8 @@ void main(void) {
 
 	initADCSPI(DS1EN);
 
+	initCounter();
+
 	int i = 0;
 	int selectCounter = 0;
 	int potArray_0, potArray_1;
@@ -87,7 +87,7 @@ void main(void) {
 				potArray[selectCounter] = readPotValues();
 				pingCounter();
 				selectCounter = (selectCounter + 1) % NUM_POTS;
-				dSlope[selectCounter] = (double)((double)potArray[selectCounter] - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
+				dSlope[selectCounter] = (double)((double)potArray[selectCounter]*2.0 - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
 
 				// potArray_0 = potArray[0];
 				// potArray_1 = potArray[1];
@@ -104,19 +104,12 @@ void main(void) {
 			for (i = 0 ; i < NUM_POTS ; i++)
 				d[i] = d[i] + dSlope[i];
 
-			// where dSlope is computed at each reading of the knob (every 20 ms):
-			// dSlope = (dTargetValueFromKnob – d) / (48 * 20)
 
-			// printf("select: %d\tch.0: %d\tch.1: %d\n", selectCounter, potArray[0], potArray[1]);
-
-			// delayLagrangeWithFeedback();
-
-
+			//delayLagrangeWithFeedback();
 
 			delayFromIEEE(d[0], d[1]);
 
-			// potTesting();
-			//iirFilter();
+			// potato = iirFilter(potato);
 			//firFilter();
 
 			formatOutput();			

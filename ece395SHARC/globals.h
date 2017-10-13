@@ -27,6 +27,8 @@
 
 #define TOGGLE_TIME 1200
 
+#define MAX(x,y) ((x)>(y)?(x):(y))
+
 // buffer for storing floats	
 extern double float_buffer[BUFFER_LENGTH];
 

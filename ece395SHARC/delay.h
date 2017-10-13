@@ -2,10 +2,9 @@
 #define _DELAY_H
 
 #include "globals.h"
+#include "iirFilter.h"
 
 void delayHarmonicWithFeedback(int delaySpeed);
-void delayPrecisionFeedback(int delaySpeed);
-void delayLagrangeNoFeedback(int potVal);
 void delayLagrangeWithFeedback(void);
 void potTesting(void);
 void delayFromIEEE(double delayVal, double feedback);

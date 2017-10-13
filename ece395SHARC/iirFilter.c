@@ -1,7 +1,7 @@
 #include "iirFilter.h"
 #include "coeffsIIR.h"
 
-void iirFilter() {
+double iirFilter(double x) {
 
 	int i;
 	
@@ -12,7 +12,7 @@ void iirFilter() {
 	// the two delay values in each stage
 	// turns out things have to be initialized - didn't and errors ensued
 	double history1 = 0.0;
-	double history2 = 0.0;	
+	double history2 = 0.0;
 
 	// pointer to beginning of coeffsIIR array
 	double * coeffPtr = coeffsIIR;
@@ -22,7 +22,7 @@ void iirFilter() {
 	double * hist2Ptr = history + 1;
 
 	// initial gain before going through each 2nd order IIR stage
-	acc_iir = gain*float_buffer[dsp];
+	acc_iir = gain * x;
 
 	for(i = 0; i < stages; i++ ) {
 
@@ -53,10 +53,8 @@ void iirFilter() {
 		hist2Ptr++;
 	}
 	
-
-	
 	// output accumulator contains the filtered sample for output
-	potato = acc_iir;
+	// potato = acc_iir;
 
-	return;
+	return acc_iir;
 }

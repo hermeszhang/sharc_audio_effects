@@ -2,7 +2,6 @@
 
 void pingCounter() {
 
-	delay(10);
 	SRU(HIGH, DAI_PB10_I);
 
 	delay(10);
