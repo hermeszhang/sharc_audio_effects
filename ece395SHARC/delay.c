@@ -11,6 +11,7 @@ double FB = 0.5;
 double BL = 0.5;
 int writeIDX = 0;
 int readIDX = 0;
+double delayLine[DELAY_LINE_LENGTH] = {0.0};
 
 void delayHarmonicWithFeedback(int delaySpeed) 
 {
@@ -40,10 +41,6 @@ void delayHarmonicWithFeedback(int delaySpeed)
 
     return;
 }
-
-
-
-
 
 /**
   *  potArray is global. potArray[0] is delay time, potArray[1] is feedback
@@ -97,7 +94,7 @@ void delayLagrangeWithFeedback(void) {
 	return;
 }
 
-void delayFromIEEE(double delayVal, double feedbackIn) {
+void delayFromIEEE(double delayVal, double feedbackIn, limiter_state* delayLimiter) {
 
 	int i = 0;
 	double interpolated = 0.0;
@@ -116,6 +113,10 @@ void delayFromIEEE(double delayVal, double feedbackIn) {
 	// 	interpolated += delay_buffer[(readIDX - N/2 + i) % DELAY_LENGTH] * h[N - 1 - i];
 	
 	delay_buffer[writeIDX] = iirFilter(potato + FB * delay_buffer[readIDX]);
+	// delay_buffer[writeIDX] = potato + FB * delay_buffer[readIDX];
+
+	// double limit(double signal, double threshold, double *delay_line, limiter_state *state)
+	delay_buffer[writeIDX] = limit(delay_buffer[writeIDX], 0.8, delayLine, delayLimiter);
 
 	potato = BL * potato + FF * delay_buffer[readIDX];
 

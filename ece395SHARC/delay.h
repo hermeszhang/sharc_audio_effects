@@ -3,10 +3,11 @@
 
 #include "globals.h"
 #include "iirFilter.h"
+#include "limiter.h"
 
 void delayHarmonicWithFeedback(int delaySpeed);
 void delayLagrangeWithFeedback(void);
 void potTesting(void);
-void delayFromIEEE(double delayVal, double feedback);
+void delayFromIEEE(double delayVal, double feedback, limiter_state* delayLimiter);
 
 #endif

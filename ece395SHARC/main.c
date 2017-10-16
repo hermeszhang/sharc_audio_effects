@@ -1,7 +1,5 @@
 #include <Cdef21489.h>
 #include <signal.h>
-#include <stdio.h>
-#include <math.h>
 
 #include "globals.h"
 #include "delay.h"
@@ -76,6 +74,7 @@ void main(void) {
 	double dSlope[2] = {0.0};
 	// int potValueArray[120][2];
 	// int potValPtr = 0;
+	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
 
 	while(1){
 
@@ -106,8 +105,9 @@ void main(void) {
 
 
 			//delayLagrangeWithFeedback();
-
-			delayFromIEEE(d[0], d[1]);
+			// potato /= 9388607;
+			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
+			delayFromIEEE(d[0], d[1], &delayLimiter);
 
 			// potato = iirFilter(potato);
 			//firFilter();

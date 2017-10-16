@@ -8,14 +8,13 @@
 typedef struct limiter_state_t {
     int delay_index;
     int delay_length;
-    float envelope;
-    float current_gain;
-    float attack_coeff;
-    float release_coeff;
+    double envelope;
+    double current_gain;
+    double attack_coeff;
+    double release_coeff;
 } limiter_state;
 
-limiter_state init_limiter(float attack_coeff, float release_coeff, int delay_len);
-void limit(float *signal, int block_length, float threshold,
-           float *delay_line, limiter_state *state);
+limiter_state init_limiter(double attack_coeff, double release_coeff, int delay_len);
+double limit(double signal, double threshold, double *delay_line, limiter_state *state);
 
 #endif

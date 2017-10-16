@@ -2,6 +2,7 @@
 #define _GLOBALS_H
 
 #include <stdio.h>
+#include <math.h>
 
 
 // Precision Feedback Max Delay Length
@@ -25,7 +26,13 @@
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
 
+// how long we wait between pot reads
 #define TOGGLE_TIME 1200
+
+// this is for the limiter's sample buffer
+#define DELAY_LINE_LENGTH 20
+
+#define MAX_AMPLITUDE 8388607
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
 
