@@ -22,6 +22,7 @@
 #define FS_DIVIDER 24576
 
 #define NUM_POTS 2	
+#define MAX_POT_VAL 8190.0 // 2*max sampled pot val = 2*4095.0
 
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
@@ -33,8 +34,15 @@
 #define DELAY_LINE_LENGTH 20
 
 #define MAX_AMPLITUDE 8388607
+#define MAX_LFO_AMP 500
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
+
+// PI constant
+#define PI 3.1415926535
+
+// sample rate
+#define Fs 48000
 
 // buffer for storing floats	
 extern double float_buffer[BUFFER_LENGTH];

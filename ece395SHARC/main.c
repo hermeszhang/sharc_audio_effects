@@ -72,6 +72,10 @@ void main(void) {
 	int toggle = 0;
 	double d[2] = {0.0};
 	double dSlope[2] = {0.0};
+	double f = (2*PI/Fs) * 0.3 ;
+	double amp = 500;
+	int n = 0;
+
 	// int potValueArray[120][2];
 	// int potValPtr = 0;
 	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
@@ -87,6 +91,7 @@ void main(void) {
 				pingCounter();
 				selectCounter = (selectCounter + 1) % NUM_POTS;
 				dSlope[selectCounter] = (double)((double)potArray[selectCounter]*2.0 - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
+				//dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
 				// potArray_0 = potArray[0];
 				// potArray_1 = potArray[1];
@@ -103,11 +108,13 @@ void main(void) {
 			for (i = 0 ; i < NUM_POTS ; i++)
 				d[i] = d[i] + dSlope[i];
 
-
 			//delayLagrangeWithFeedback();
 			// potato /= 9388607;
 			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
-			delayFromIEEE(d[0], d[1], &delayLimiter);
+			delayFromIEEE(d[1], d[0], &delayLimiter);
+			//delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
+
+			n++;
 
 			// potato = iirFilter(potato);
 			//firFilter();

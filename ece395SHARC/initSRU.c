@@ -105,6 +105,8 @@ void initCounter(void) {
 	delay(100);
 
 	SRU(HIGH, DAI_PB15_I);
+
+	delay(10000);
 }
 
 void clearDAIpins(void) {
