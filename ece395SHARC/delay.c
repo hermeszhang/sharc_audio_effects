@@ -140,7 +140,7 @@ void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, d
 	double interpolated = 0.0;
 
 	// y = mx + b --> compress delay knob range then offset it
-	delayVal = ( (MAX_POT_VAL) / (MAX_POT_VAL - 2*MAX_LFO_AMP) ) * delayVal + (MAX_LFO_AMP);
+	delayVal = (double) ( (MAX_POT_VAL - 2*MAX_LFO_AMP) / (MAX_POT_VAL) ) * delayVal + (MAX_LFO_AMP);
 
 	delayVal += lfo;
 	delayVal = (MAX_POT_VAL - delayVal);

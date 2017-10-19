@@ -90,8 +90,8 @@ void main(void) {
 				potArray[selectCounter] = readPotValues();
 				pingCounter();
 				selectCounter = (selectCounter + 1) % NUM_POTS;
-				dSlope[selectCounter] = (double)((double)potArray[selectCounter]*2.0 - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
-				//dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
+				// dSlope[selectCounter] = (double)((double)potArray[selectCounter]*2.0 - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
+				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
 				// potArray_0 = potArray[0];
 				// potArray_1 = potArray[1];
@@ -111,8 +111,8 @@ void main(void) {
 			//delayLagrangeWithFeedback();
 			// potato /= 9388607;
 			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
-			delayFromIEEE(d[1], d[0], &delayLimiter);
-			//delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
+			// delayFromIEEE(d[1], d[0], &delayLimiter);
+			delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
 
 			n++;
 
