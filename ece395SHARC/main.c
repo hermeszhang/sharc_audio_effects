@@ -64,19 +64,18 @@ void main(void) {
 
 	initADCSPI(DS1EN);
 
-	initCounter();
+	clearCounter();
 
 	int i = 0;
 	int selectCounter = 0;
-	int potArray_0, potArray_1;
 	int toggle = 0;
-	double d[2] = {0.0};
-	double dSlope[2] = {0.0};
-	double f = (2*PI/Fs) * 0.3 ;
+	double d[NUM_POTS] = {0.0};
+	double dSlope[NUM_POTS] = {0.0};
+	double f;
 	double amp = 500;
 	int n = 0;
 
-	// int potValueArray[120][2];
+	// int potValueArray[5][NUM_POTS];
 	// int potValPtr = 0;
 	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
 
@@ -87,19 +86,27 @@ void main(void) {
 			formatInput();
 
 			if (toggle == TOGGLE_TIME) {
+
 				potArray[selectCounter] = readPotValues();
-				pingCounter();
-				selectCounter = (selectCounter + 1) % NUM_POTS;
-				// dSlope[selectCounter] = (double)((double)potArray[selectCounter]*2.0 - (double)d[selectCounter])/(double)(TOGGLE_TIME * NUM_POTS);
+
 				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
-				// potArray_0 = potArray[0];
-				// potArray_1 = potArray[1];
+				selectCounter = (selectCounter + 1) % NUM_POTS;
 
-				// potValueArray[potValPtr][0] = potArray[0];
-				// potValueArray[potValPtr][1] = potArray[1];
+				if (selectCounter == 0)
+					clearCounter();
+				else
+					pingCounter();
 
-				// potValPtr = (potValPtr + 1) % 120;
+				// DEBUG
+
+				// for (i = 0 ; i < NUM_POTS ; i++)
+				// 	potValueArray[potValPtr][i] = potArray[i];
+
+				// potValPtr = (potValPtr + 1) % 5;
+
+			    //END DEBUG 
+
 				toggle = 0;
 			}
 
@@ -107,6 +114,10 @@ void main(void) {
 
 			for (i = 0 ; i < NUM_POTS ; i++)
 				d[i] = d[i] + dSlope[i];
+
+			// remap LFO frequency range to range from 0.25 Hz -> 5 Hz
+			f = (2*PI/Fs) * (MAX_LFO_SPEED / MAX_POT_VAL) * d[2];
+			// f = 0.0;
 
 			//delayLagrangeWithFeedback();
 			// potato /= 9388607;

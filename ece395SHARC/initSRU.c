@@ -96,7 +96,7 @@ void initSRU() {
 
 }
 
-void initCounter(void) {
+void clearCounter(void) {
 
 	delay(100);
 	
@@ -106,7 +106,7 @@ void initCounter(void) {
 
 	SRU(HIGH, DAI_PB15_I);
 
-	delay(10000);
+	// delay(10000);
 }
 
 void clearDAIpins(void) {

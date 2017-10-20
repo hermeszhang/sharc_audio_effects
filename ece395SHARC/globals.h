@@ -12,7 +12,6 @@
 #define DELAY_LENGTH 32768
 
 #define BUFFER_LENGTH 256
-#define POT_BUFFER_LENGTH 2
 
 // ADC PCG register settings
 // (24.576 MHz)/(desired freq) = clock divider
@@ -21,7 +20,7 @@
 #define CLK_DIVIDER 768	
 #define FS_DIVIDER 24576
 
-#define NUM_POTS 2	
+#define NUM_POTS 3
 #define MAX_POT_VAL 8190.0 // 2*max sampled pot val = 2*4095.0
 
 // buffer for storing floats	
@@ -35,6 +34,7 @@
 
 #define MAX_AMPLITUDE 8388607
 #define MAX_LFO_AMP 500
+#define MAX_LFO_SPEED 5
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
 
