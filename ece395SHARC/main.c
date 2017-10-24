@@ -81,7 +81,7 @@ void main(void) {
 
 	while(1){
 
-		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
+ 		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
 		{
 			formatInput();
 
@@ -89,7 +89,7 @@ void main(void) {
 
 				potArray[selectCounter] = readPotValues();
 
-				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
+				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
 				selectCounter = (selectCounter + 1) % NUM_POTS;
 
@@ -125,13 +125,15 @@ void main(void) {
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
 			delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
 
-			n++;
+			n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
+			// n++;
 
 			// potato = iirFilter(potato);
 			//firFilter();
+			// potato = MAX_LFO_AMP * sin(f * n);
 
-			formatOutput();			
+			formatOutput();
 		}
-		
-	}  
+
+	}
 }

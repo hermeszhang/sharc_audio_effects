@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <math.h>
 
+// PI constant
+#define PI 3.1415926535
 
-// Precision Feedback Max Delay Length
-// #define MAX_DELAY 4096
+// sample rate
+#define Fs 48000
 
 // 4096 = 2^12 = Pot Value Max
 #define DELAY_LENGTH 32768
@@ -32,17 +34,12 @@
 // this is for the limiter's sample buffer
 #define DELAY_LINE_LENGTH 20
 
+// LFO constants
 #define MAX_AMPLITUDE 8388607
-#define MAX_LFO_AMP 500
+#define MAX_LFO_AMP 100
 #define MAX_LFO_SPEED 5
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
-
-// PI constant
-#define PI 3.1415926535
-
-// sample rate
-#define Fs 48000
 
 // buffer for storing floats	
 extern double float_buffer[BUFFER_LENGTH];
@@ -92,6 +89,9 @@ extern int delay_ptr;
 extern int delay_counter;
 // buffer for storing delay samples
 extern double delay_buffer[DELAY_LENGTH];
+
+// hang on to and view some f values
+extern double debugF[TOGGLE_TIME * 2];
 
 void delay(int times);
 

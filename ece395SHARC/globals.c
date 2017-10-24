@@ -25,6 +25,8 @@ int potValuePrev2 = 0;
 
 int potArray[NUM_POTS] = {0};
 
+double debugF[TOGGLE_TIME * 2] = {0.0};
+
 void delay(int times)
 {
 	int i;

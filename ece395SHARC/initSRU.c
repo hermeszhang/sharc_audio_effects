@@ -98,6 +98,7 @@ void initSRU() {
 
 void clearCounter(void) {
 
+	// 100 might be too long of a delay time
 	delay(100);
 	
 	SRU(LOW, DAI_PB15_I);

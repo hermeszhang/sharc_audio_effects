@@ -146,11 +146,7 @@ void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, d
 	delayVal = (MAX_POT_VAL - delayVal);
 	// delayVal += 0.0*4096.0;
 
-	// if (delayVal < 5000)
-	// 	delayVal = 5000;
-
 	FB = feedbackIn/(MAX_POT_VAL);
-	// FB = 0.7;
 
 	// convolution of input (going forwards) and coeffs (going backwards)
 	// for (i = 0 ; i < N; i++)
@@ -164,38 +160,11 @@ void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, d
 
 	potato = BL * potato + FF * delay_buffer[readIDX];
 
-	// delay_buffer[writeIDX] = potato + FB * interpolated;
-
-	// potato = BL * potato + FF * interpolated;
-
 	writeIDX = (writeIDX + 1) % DELAY_LENGTH;
 
 	readIDX = (writeIDX + (int)delayVal) % DELAY_LENGTH;
 
 	float_buffer[dsp] = potato;
 	
-	return;
-}
-
-void potTesting(void) {
-
-	//if (potVal <= 1)
-	//	potVal = 2;
-
-	// if (potArray[0] < 1)
-	// 	potArray[0] = 1;
-
-	// if (potArray[1] < 1)
-	// 	potArray[1] = 1;
-
-
-	float_buffer[dsp] = potato = float_buffer[dsp] * ((float)potArray[0] / 4095.0);
-
-	// printf("potArray[0] math = %0.2f\n", ((float)potArray[0] / 4095.0));
-
-	float_buffer[dsp] = potato = float_buffer[dsp] * ((4095.0 - (float)potArray[1]) / 4095.0);
-
-	// printf("potArray[0] math = %0.2f\tpotArray[1] math = %0.2f\n", ((float)potArray[0] / 4095.0), ((4095.0 - (float)potArray[1])) / 4095.0);
-
 	return;
 }
