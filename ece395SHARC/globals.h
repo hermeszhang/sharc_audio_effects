@@ -13,6 +13,12 @@
 // 4096 = 2^12 = Pot Value Max
 #define DELAY_LENGTH 32768
 
+// 30 ms max chorus delay time
+// 480 amp 
+#define CHORUS_LENGTH 1440
+#define CHORUS_LFO_AMP 480
+#define CHORUS_LFO_SPEED 5
+
 #define BUFFER_LENGTH 256
 
 // ADC PCG register settings
@@ -76,10 +82,6 @@ extern int dsp;
 // each effect plays hot potato with the eventual output sample
 extern double potato;
 
-// ------------------------ delay globals --------------- //
-extern int potValue;
-extern int potValuePrev1;
-extern int potValuePrev2;
 
 extern int potArray[NUM_POTS];
 
@@ -90,8 +92,11 @@ extern int delay_counter;
 // buffer for storing delay samples
 extern double delay_buffer[DELAY_LENGTH];
 
+extern int chorus_ptr;
+extern double chorus_buffer[CHORUS_LENGTH];
+
 // hang on to and view some f values
-extern double debugF[TOGGLE_TIME * 2];
+//extern double debugF[TOGGLE_TIME * 2];
 
 void delay(int times);
 

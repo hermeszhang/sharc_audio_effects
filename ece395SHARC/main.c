@@ -3,6 +3,7 @@
 
 #include "globals.h"
 #include "delay.h"
+#include "chorus.h"
 #include "initSRU.h"
 #include "initSPDIF.h"
 #include "initSPI.h"
@@ -77,7 +78,10 @@ void main(void) {
 
 	// int potValueArray[5][NUM_POTS];
 	// int potValPtr = 0;
-	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
+	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);		// attack, release, delay length
+	limiter_state chorusLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
+
+	initChorus();
 
 	while(1){
 
@@ -89,6 +93,7 @@ void main(void) {
 
 				potArray[selectCounter] = readPotValues();
 
+				// MAX_POT_VAL/4095.0  = 2, this factor blows up the range
 				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
 				selectCounter = (selectCounter + 1) % NUM_POTS;
@@ -105,7 +110,7 @@ void main(void) {
 
 				// potValPtr = (potValPtr + 1) % 5;
 
-			    //END DEBUG 
+			    // END DEBUG 
 
 				toggle = 0;
 			}
@@ -119,17 +124,19 @@ void main(void) {
 			f = (2*PI/Fs) * (MAX_LFO_SPEED / MAX_POT_VAL) * d[2];
 			// f = 0.0;
 
-			//delayLagrangeWithFeedback();
+			// delayLagrangeWithFeedback();
 			// potato /= 9388607;
 			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
-			delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
+			// delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
+
+			chorus(d[1], d[0], &chorusLimiter);
 
 			n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
 			// n++;
 
 			// potato = iirFilter(potato);
-			//firFilter();
+			// firFilter();
 			// potato = MAX_LFO_AMP * sin(f * n);
 
 			formatOutput();

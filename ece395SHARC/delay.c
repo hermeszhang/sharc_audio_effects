@@ -43,58 +43,8 @@ void delayHarmonicWithFeedback(int delaySpeed)
     return;
 }
 
-/**
-  *  potArray is global. potArray[0] is delay time, potArray[1] is feedback
-  *  
-  * 
-  * 
-  */
-void delayLagrangeWithFeedback(void) {
 
-	//if (potVal <= 1)
-	//	potVal = 2;
-
-	if (potArray[0] < 30)
-		potArray[0] = 30;
-
-	if (potArray[1] < 30)
-		potArray[1] = 30;
-
-	// d is the continually updating value of delay, based on
-	// a slope from the old value to a desired target value
-	// note: the slope ensures that the target value will be
-	// reached in 48 * 20 samples, which corresponds to 
-	// 20ms at a sample rate of 48000 Hz
-	float d0 = potArray[0] * 3.0;
-
-	// printf("ch.0: %d\tch.1: %d\n", potArray[0], potArray[1]);
-	d = d + (float)(d0 - d) / (48 * 300);
-
-	feedback = ((float)potArray[1])/4095.0;
-
-
-	int i = 0;
-	double interpolated = 0.0;
-	int dn = (delay_ptr + (int)d) % DELAY_LENGTH;
-
-	// convolution of input (going forwards) and coeffs (going backwards)
-	for (i = 0 ; i < N; i++)
-		interpolated += delay_buffer[(delay_ptr - N/2 + (int)d + i) % DELAY_LENGTH] * h[N - 1 - i];
-
-	// load delay with current input (for next time)
-	delay_buffer[delay_ptr] = feedback * interpolated + float_buffer[dsp];
-
-	// the following line works if lagrange interpolation is not desired
-	// delay_buffer[delay_ptr] = feedback * delay_buffer[dn] + float_buffer[dsp];
-
-	// add old data to current data
-	float_buffer[dsp] = potato = delay_buffer[delay_ptr];
-
-	delay_ptr = (delay_ptr + 1) % DELAY_LENGTH;
-
-	return;
-}
-
+// delay with no LFO, otherwise has all bells and whistles
 void delayFromIEEE(double delayVal, double feedbackIn, limiter_state* delayLimiter) {
 	
 	int i = 0;
