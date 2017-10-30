@@ -76,22 +76,31 @@ void main(void) {
 	double amp = 500;
 	int n = 0;
 
-	// int potValueArray[5][NUM_POTS];
-	// int potValPtr = 0;
+	volatile clock_t clock_old;
+	volatile clock_t clock_new;
+	double secs;
+
+	int potValueArray[5][NUM_POTS];
+	int potValPtr = 0;
 	limiter_state delayLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);		// attack, release, delay length
 	limiter_state chorusLimiter = init_limiter(0.9, 0.5, DELAY_LINE_LENGTH);	// attack, release, delay length
 
 	initChorus();
 
+
 	while(1){
+
 
  		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
 		{
+			clock_start = clock();
 			formatInput();
 
 			if (toggle == TOGGLE_TIME) {
 
 				potArray[selectCounter] = readPotValues();
+
+				checkButton();
 
 				// MAX_POT_VAL/4095.0  = 2, this factor blows up the range
 				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
@@ -105,10 +114,10 @@ void main(void) {
 
 				// DEBUG
 
-				// for (i = 0 ; i < NUM_POTS ; i++)
-				// 	potValueArray[potValPtr][i] = potArray[i];
+				for (i = 0 ; i < NUM_POTS ; i++)
+					potValueArray[potValPtr][i] = potArray[i];
 
-				// potValPtr = (potValPtr + 1) % 5;
+				potValPtr = (potValPtr + 1) % 5;
 
 			    // END DEBUG 
 
@@ -133,14 +142,17 @@ void main(void) {
 			chorus(d[1], d[0], &chorusLimiter);
 
 			n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
-			// n++;
 
 			// potato = iirFilter(potato);
 			// firFilter();
 			// potato = MAX_LFO_AMP * sin(f * n);
 
 			formatOutput();
+			clock_stop = clock();
+			secs = ((double) (clock_stop - clock_start)) / CLOCKS_PER_SEC;
 		}
+
+		// printf("Time taken is %lf seconds\n",secs); 
 
 	}
 }

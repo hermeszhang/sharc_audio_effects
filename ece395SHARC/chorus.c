@@ -1,10 +1,11 @@
 #include "chorus.h"
 
-
 double chorusLimiterBuffer[DELAY_LINE_LENGTH] = {0.0};
 int n = 0;
 
 struct chorus_params_t c;
+
+SinCos sinCosResult;
 
 void initChorus(void) {
 	c.FF = 0.5;
@@ -24,7 +25,8 @@ void chorus(double depth, double rate, limiter_state* chorusLimiter) {
 
 	depth = ((double)CHORUS_LFO_AMP / MAX_POT_VAL) * depth;
 
-	phaseJump =  depth * sin(f * n);
+	sinCos(f * n, &sinCosResult);
+	phaseJump =  depth * sinCosResult.sin;
 
 	// y = mx + b --> compress delay knob range then offset it
 	//delayReach = (double) ( (CHORUS_LENGTH - 1 - 2*CHORUS_LFO_AMP) / (MAX_POT_VAL) ) * delayReach + (CHORUS_LFO_AMP);

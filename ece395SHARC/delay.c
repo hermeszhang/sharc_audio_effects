@@ -12,7 +12,7 @@ double BL = 0.5;
 int writeIDX = 0;
 int readIDX = 0;
 double delayLine[DELAY_LINE_LENGTH] = {0.0};
-
+tap_button_state b;
 
 void delayHarmonicWithFeedback(int delaySpeed) 
 {
@@ -86,6 +86,11 @@ void delayFromIEEE(double delayVal, double feedbackIn, limiter_state* delayLimit
 
 void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, double lfo) {
 	
+	if (b.num_pushes >= 2)
+		delayVal = callUnitConverter();
+	else
+		we use the knob;
+
 	int i = 0;
 	double interpolated = 0.0;
 
@@ -117,4 +122,36 @@ void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, d
 	float_buffer[dsp] = potato;
 	
 	return;
+}
+
+void initDelayButton(void) {
+	b.button_val_prev = 4095;
+	b.num_pushes = 0;
+	b.running_average = 0.0;
+	b.timeout = 1;
+	b.clock_old = clock();
+	b.alpha = 0.4;
+}
+
+void checkButton(void) {
+	double delta_t;
+
+	b.clock_new = clock();
+
+	delta_t	= ((double) (b.clock_new - b.clock_old)) / CLOCKS_PER_SEC;
+
+	if (delta_t >= b.timeout) {
+		initDelayButton();
+		return;
+	}
+
+	if ((b.button_val_prev > 3000) && (potArray[3] < 1000)) {
+		b.clock_old = b.clock_new;
+
+		if (b.num_pushes++ >= 2) {
+			b.running_average = b.alpha * b.running_average + (1 - b.alpha) * delta_t;
+		}
+	}
+
+	b.button_val_prev = potArray[3];
 }

@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
+#include "sincos.h"
 
 // PI constant
 #define PI 3.1415926535
@@ -28,7 +30,7 @@
 #define CLK_DIVIDER 768	
 #define FS_DIVIDER 24576
 
-#define NUM_POTS 3
+#define NUM_POTS 4
 #define MAX_POT_VAL 8190.0 // 2*max sampled pot val = 2*4095.0
 
 // buffer for storing floats	
@@ -46,6 +48,16 @@
 #define MAX_LFO_SPEED 5
 
 #define MAX(x,y) ((x)>(y)?(x):(y))
+
+typedef struct tap_button_state_t {
+	int button_val_prev;
+	volatile clock_t clock_old;
+	volatile clock_t clock_new;
+	int num_pushes;
+	double running_average;
+	double timeout;
+	double alpha;
+} tap_button_state;
 
 // buffer for storing floats	
 extern double float_buffer[BUFFER_LENGTH];
