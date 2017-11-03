@@ -37,7 +37,7 @@
 // double float_buffer[BUFFER_LENGTH] = {0.0};
 
 // how long we wait between pot reads
-#define TOGGLE_TIME 1200
+#define TOGGLE_TIME 240
 
 // this is for the limiter's sample buffer
 #define DELAY_LINE_LENGTH 20
@@ -57,6 +57,7 @@ typedef struct tap_button_state_t {
 	double running_average;
 	double timeout;
 	double alpha;
+	int timeout_flag;
 } tap_button_state;
 
 // buffer for storing floats	

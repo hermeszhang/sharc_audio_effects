@@ -5,8 +5,17 @@
 #include "iirFilter.h"
 #include "limiter.h"
 
+typedef struct delay_struct_t {
+	int knob_val_prev;
+	int use_button;
+} delay_struct;
+
 void delayHarmonicWithFeedback(int delaySpeed);
 void delayFromIEEE(double delayVal, double feedback, limiter_state* delayLimiter);
 void delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, double lfo);
+void checkButton(void);
+void timeoutDelayButton(void);
+void initDelayButton(void);
+void initDelayStruct(void);
 
 #endif
