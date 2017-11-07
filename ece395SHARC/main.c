@@ -134,18 +134,18 @@ void main(void) {
 				d[i] = d[i] + dSlope[i];
 
 			// remap LFO frequency range to range from 0.25 Hz -> 5 Hz
-			f = (2*PI/Fs) * (MAX_LFO_SPEED / MAX_POT_VAL) * d[2];
+			// f = (2*PI/Fs) * (MAX_LFO_SPEED / MAX_POT_VAL) * d[2];
 			// f = 0.0;
 
 			// delayLagrangeWithFeedback();
 			// potato /= 9388607;
 			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
-			delayLFO(d[1], d[0], &delayLimiter,  MAX_LFO_AMP * sin(f * n) );
+			delayLFO(d[1], d[0], &delayLimiter, d[2]);
 
 			// chorus(d[1], d[0], &chorusLimiter);
 
-			n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
+			// n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
 
 			// potato = iirFilter(potato);
 			// firFilter();
