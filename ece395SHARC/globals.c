@@ -28,7 +28,7 @@ int potValue = 0;
 int potValuePrev1 = 0;
 int potValuePrev2 = 0;
 
-int potArray[NUM_POTS] = {0};
+double potArray[NUM_POTS] = {0};
 
 //double debugF[TOGGLE_TIME * 2] = {0.0};
 

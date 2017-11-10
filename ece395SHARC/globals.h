@@ -12,6 +12,8 @@
 // sample rate
 #define Fs 48000
 
+#define FILTER_LENGTH 64
+
 // 4096 = 2^12 = Pot Value Max
 #define DELAY_LENGTH 32768
 
@@ -31,16 +33,18 @@
 #define FS_DIVIDER 24576
 
 #define NUM_POTS 4
-#define MAX_POT_VAL 8190.0 // 2*max sampled pot val = 2*4095.0
+#define MAX_POT_VAL (8.0 * 4095.0) // 2*max sampled pot val = 2*4095.0
 
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
 
 // how long we wait between pot reads
-#define TOGGLE_TIME 240
+#define TOGGLE_TIME 960/NUM_POTS
 
 // this is for the limiter's sample buffer
 #define DELAY_LINE_LENGTH 20
+
+#define DELAY_SLEW_STEP_NUM 24000
 
 // LFO constants
 #define MAX_AMPLITUDE 8388607
@@ -96,7 +100,7 @@ extern int dsp;
 extern double potato;
 
 
-extern int potArray[NUM_POTS];
+extern double potArray[NUM_POTS];
 
 // delay buffer index
 extern int delay_ptr;

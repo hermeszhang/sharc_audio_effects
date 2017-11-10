@@ -75,6 +75,13 @@ void main(void) {
 	double f;
 	double amp = 500;
 	int n = 0;
+	double debug;
+	double movie[3000] = {99};
+	int movie_idx = 0;
+
+	// potentiometer histories for filtering
+	double pot_history[NUM_POTS*FILTER_LENGTH] = {0.0};
+	int history_idx = 0;
 
 	volatile clock_t clock_old;
 	volatile clock_t clock_new;
@@ -94,6 +101,7 @@ void main(void) {
 
 	while(1){
 
+
  		while( ( ((int)rx0a_buf + dsp) & BUFFER_MASK ) != ( *pIISP0A & BUFFER_MASK ) ) 
 		{
 			formatInput();
@@ -101,18 +109,27 @@ void main(void) {
 			if (toggle == TOGGLE_TIME) {
 
 				potArray[selectCounter] = readPotValues();
+
+				potArray[selectCounter] = fir_filter(potArray[selectCounter], pot_history + selectCounter*FILTER_LENGTH, history_idx);
+
+				if (selectCounter == 1){
+					movie[movie_idx] = potArray[selectCounter];
+					movie_idx = (movie_idx + 1) % 3000;
+				}
 				
 				// 3 is the mux select line for the button
 				if (selectCounter == 3)
 					checkButton();
 
 				// MAX_POT_VAL/4095.0  = 2, this factor blows up the range
-				dSlope[selectCounter] = (double)((potArray[selectCounter]*(MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
+				dSlope[selectCounter] = (double)((potArray[selectCounter] * (MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 
 				selectCounter = (selectCounter + 1) % NUM_POTS;
 
-				if (selectCounter == 0)
+				if (selectCounter == 0){
 					clearCounter();
+					history_idx = (history_idx + 1) % FILTER_LENGTH;
+				}
 				else
 					pingCounter();
 
@@ -141,7 +158,7 @@ void main(void) {
 			// potato /= 9388607;
 			// printf("potatoNorm = %lf\t potato = %1f\n", potato / 9388607, potato);
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
-			delayLFO(d[1], d[0], &delayLimiter, d[2]);
+			debug = delayLFO(d[1], d[0], &delayLimiter, d[2]);
 
 			// chorus(d[1], d[0], &chorusLimiter);
 
@@ -152,9 +169,9 @@ void main(void) {
 			// potato = MAX_LFO_AMP * sin(f * n);
 
 			formatOutput();
+			
 		}
 
 		// printf("Time taken is %lf seconds\n",secs); 
-
 	}
 }

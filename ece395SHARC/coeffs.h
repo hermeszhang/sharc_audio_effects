@@ -1,7 +1,7 @@
 #ifndef _COEFFS_H
 #define _COEFFS_H
 
-#define FILTER_LENGTH 64
+#include "globals.h"
 
 double coeffs[64] = {
 
