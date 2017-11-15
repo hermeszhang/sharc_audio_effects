@@ -118,7 +118,7 @@ double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter,
 
 	// consider passing raw pot values as function parameters
 	if ((potArray[1] > dStruct.knob_val_prev + dStruct.threshold) || 
-		 potArray[1] < dStruct.knob_val_prev - dStruct.threshold) {
+		(potArray[1] < dStruct.knob_val_prev - dStruct.threshold)) {
 
 		if (dStruct.use_button) {
 			dStruct.use_button = 0;
@@ -189,7 +189,7 @@ double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter,
 	
 	n_delay = (n_delay + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * rate));
 
-	return dStruct.slew_slope;
+	return dStruct.delayVal_slewing;
 }
 
 void initDelayButton(void) {
@@ -218,8 +218,9 @@ void initDelayStruct(void) {
 	dStruct.slew_flag = 0;
 }
 
-void checkButton(void) {
+int checkButton(void) {
 	double delta_t;
+	int retFlag = 0;
 
 	b.clock_new = clock();
 
@@ -228,7 +229,7 @@ void checkButton(void) {
 	// if the time elapsed is greater than timeout
 	if (delta_t >= b.timeout) {
 		timeoutDelayButton();
-		return;
+		return retFlag;
 	}
 
 	// if button is pressed (falling edge)
@@ -241,6 +242,7 @@ void checkButton(void) {
 				b.timeout_flag = 0;
 			}
 			b.running_average = b.alpha * b.running_average + (1 - b.alpha) * delta_t;
+			retFlag = 1;
 		}
 	}
 
@@ -249,4 +251,9 @@ void checkButton(void) {
 
 	ra_debug[ra_idx] = b.running_average;
 	ra_idx = (ra_idx + 1) % 1000;
+	return retFlag;
+}
+
+double getButtonDelayReach(){
+	return b.running_average * Fs;
 }

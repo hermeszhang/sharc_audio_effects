@@ -14,9 +14,6 @@
 
 #define FILTER_LENGTH 64
 
-// 4096 = 2^12 = Pot Value Max
-#define DELAY_LENGTH 32768
-
 // 30 ms max chorus delay time
 // 480 amp 
 #define CHORUS_LENGTH 1440
@@ -35,8 +32,15 @@
 #define NUM_POTS 4
 #define MAX_POT_VAL (8.0 * 4095.0) // 2*max sampled pot val = 2*4095.0
 
+// 4096 = 2^12 = Pot Value Max
+#define DELAY_LENGTH 32761
+
 // buffer for storing floats	
 // double float_buffer[BUFFER_LENGTH] = {0.0};
+
+// for controlState variable (main.c)
+#define BUTTON 0
+#define KNOB 1
 
 // how long we wait between pot reads
 #define TOGGLE_TIME 960/NUM_POTS
@@ -44,7 +48,7 @@
 // this is for the limiter's sample buffer
 #define DELAY_LINE_LENGTH 20
 
-#define DELAY_SLEW_STEP_NUM 24000
+#define DELAY_SLEW_STEP_NUM 480
 
 // LFO constants
 #define MAX_AMPLITUDE 8388607

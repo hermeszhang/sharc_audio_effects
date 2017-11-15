@@ -24,9 +24,10 @@ typedef struct delay_struct_t {
 void delayHarmonicWithFeedback(int delaySpeed);
 void delayFromIEEE(double delayVal, double feedback, limiter_state* delayLimiter);
 double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter, double rate);
-void checkButton(void);
+int checkButton(void);
 void timeoutDelayButton(void);
 void initDelayButton(void);
 void initDelayStruct(void);
+double getButtonDelayReach(void);
 
 #endif

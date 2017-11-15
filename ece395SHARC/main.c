@@ -41,7 +41,7 @@ extern void initPLL_SDRAM(void);
 void main(void) {
 
 
-	initPLL_SDRAM();
+		initPLL_SDRAM();
 	initSPI(DS0EN);
 	initSRU();
 
@@ -76,8 +76,14 @@ void main(void) {
 	double amp = 500;
 	int n = 0;
 	double debug;
-	double movie[3000] = {99};
+	double movie[5000] = {0.0};
 	int movie_idx = 0;
+	int skipCounter = 0;
+
+	double potArrayPrev[NUM_POTS] = {0.0};
+	double threshold = 10;
+	// target value for slewing (dslope)
+	double target;
 
 	// potentiometer histories for filtering
 	double pot_history[NUM_POTS*FILTER_LENGTH] = {0.0};
@@ -86,6 +92,13 @@ void main(void) {
 	volatile clock_t clock_old;
 	volatile clock_t clock_new;
 	double secs;
+
+	// 1 is for knob, 0 for button
+	int controlState = 0;
+	// boolean type to check if knob has changed
+	int knobChange = 0;
+	// boolean type to check if new button session has begun
+	int newButtonSession = 0;
 
 	// DEBUG
 	// int potValueArray[5][NUM_POTS];
@@ -110,19 +123,42 @@ void main(void) {
 
 				potArray[selectCounter] = readPotValues();
 
-				potArray[selectCounter] = fir_filter(potArray[selectCounter], pot_history + selectCounter*FILTER_LENGTH, history_idx);
+				// don't apply the filter to the button!!
+				if (selectCounter != 3)
+					potArray[selectCounter] = fir_filter(potArray[selectCounter], pot_history + selectCounter*FILTER_LENGTH, history_idx);
 
-				if (selectCounter == 1){
-					movie[movie_idx] = potArray[selectCounter];
-					movie_idx = (movie_idx + 1) % 3000;
-				}
+				// if (selectCounter == 1){
+				// 	movie[movie_idx] = potArray[selectCounter];
+				// 	movie_idx = (movie_idx + 1) % 3000;
+				// }
+
 				
-				// 3 is the mux select line for the button
-				if (selectCounter == 3)
-					checkButton();
+				// 1 is select line for delay knob
+				if (selectCounter == 1) {
+					knobChange = (potArray[1] > potArrayPrev[1] + threshold) || (potArray[1] < potArrayPrev[1] - threshold);
+					
+					if (knobChange){
+						controlState = KNOB;
+						dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+						initDelayButton();
+					}
+				}
+				// 3 is select line for button
+				else if (selectCounter == 3) {
+					newButtonSession = checkButton();
 
-				// MAX_POT_VAL/4095.0  = 2, this factor blows up the range
-				dSlope[selectCounter] = (double)((potArray[selectCounter] * (MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
+					if (newButtonSession){
+						controlState = BUTTON;
+						dSlope[1] = (double)((getButtonDelayReach() - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+					}
+				}
+				// make sure slope is properly computed for all other pots
+				else {
+					dSlope[selectCounter] = (double)((potArray[selectCounter] * (MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
+				}
+
+
+				potArrayPrev[selectCounter] = potArray[selectCounter];
 
 				selectCounter = (selectCounter + 1) % NUM_POTS;
 
@@ -160,6 +196,12 @@ void main(void) {
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
 			debug = delayLFO(d[1], d[0], &delayLimiter, d[2]);
 
+			if (skipCounter++ == 480) {
+				movie[movie_idx] = debug;
+				movie_idx = (movie_idx + 1) % 5000;
+				skipCounter = 0;
+			}
+	
 			// chorus(d[1], d[0], &chorusLimiter);
 
 			// n = (n + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * d[2]));
@@ -171,7 +213,5 @@ void main(void) {
 			formatOutput();
 			
 		}
-
-		// printf("Time taken is %lf seconds\n",secs); 
 	}
 }
