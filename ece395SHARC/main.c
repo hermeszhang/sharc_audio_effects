@@ -77,11 +77,13 @@ void main(void) {
 	int n = 0;
 	double debug;
 	double movie[5000] = {0.0};
+	for (i = 0 ; i < 5000 ; i++)
+		movie[i] = 99.0;
 	int movie_idx = 0;
 	int skipCounter = 0;
 
-	double potArrayPrev[NUM_POTS] = {0.0};
-	double threshold = 10;
+	double knobPrev = 0.0;
+	double threshold = 1;
 	// target value for slewing (dslope)
 	double target;
 
@@ -98,7 +100,7 @@ void main(void) {
 	// boolean type to check if knob has changed
 	int knobChange = 0;
 	// boolean type to check if new button session has begun
-	int newButtonSession = 0;
+	int newButtonAverage = 0;
 
 	// DEBUG
 	// int potValueArray[5][NUM_POTS];
@@ -110,7 +112,6 @@ void main(void) {
 
 	initChorus();
 	initDelayButton();
-	initDelayStruct();
 
 	while(1){
 
@@ -120,45 +121,50 @@ void main(void) {
 			formatInput();
 
 			if (toggle == TOGGLE_TIME) {
-
 				potArray[selectCounter] = readPotValues();
 
 				// don't apply the filter to the button!!
 				if (selectCounter != 3)
 					potArray[selectCounter] = fir_filter(potArray[selectCounter], pot_history + selectCounter*FILTER_LENGTH, history_idx);
 
-				// if (selectCounter == 1){
-				// 	movie[movie_idx] = potArray[selectCounter];
-				// 	movie_idx = (movie_idx + 1) % 3000;
-				// }
-
 				
 				// 1 is select line for delay knob
 				if (selectCounter == 1) {
-					knobChange = (potArray[1] > potArrayPrev[1] + threshold) || (potArray[1] < potArrayPrev[1] - threshold);
+					knobChange = ((int)potArray[1] > (int)(knobPrev + threshold)) || ((int)potArray[1] < (int)(knobPrev - threshold));
 					
 					if (knobChange){
 						controlState = KNOB;
-						dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
 						initDelayButton();
 					}
+
+					movie[movie_idx] = knobChange;
+					movie_idx = (movie_idx + 1) % 5000;
+
+					if (controlState == KNOB){
+						dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+					}
+
+					knobPrev = potArray[1];
 				}
 				// 3 is select line for button
 				else if (selectCounter == 3) {
-					newButtonSession = checkButton();
+					newButtonAverage = checkButton();
+ 					// newButtonAverage = 0;
+					// movie[movie_idx] = newButtonAverage;
+					// movie_idx = (movie_idx + 1) % 5000;
 
-					if (newButtonSession){
-						controlState = BUTTON;
+					if (newButtonAverage){
 						dSlope[1] = (double)((getButtonDelayReach() - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+						controlState = BUTTON;
+					}
+					else if (controlState == BUTTON) {
+						dSlope[1] = 0;
 					}
 				}
 				// make sure slope is properly computed for all other pots
 				else {
 					dSlope[selectCounter] = (double)((potArray[selectCounter] * (MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 				}
-
-
-				potArrayPrev[selectCounter] = potArray[selectCounter];
 
 				selectCounter = (selectCounter + 1) % NUM_POTS;
 
@@ -196,11 +202,6 @@ void main(void) {
 			// delayFromIEEE(d[1], d[0], &delayLimiter);
 			debug = delayLFO(d[1], d[0], &delayLimiter, d[2]);
 
-			if (skipCounter++ == 480) {
-				movie[movie_idx] = debug;
-				movie_idx = (movie_idx + 1) % 5000;
-				skipCounter = 0;
-			}
 	
 			// chorus(d[1], d[0], &chorusLimiter);
 

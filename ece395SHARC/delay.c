@@ -13,7 +13,6 @@ int writeIDX = 0;
 int readIDX = 0;
 double delayLine[DELAY_LINE_LENGTH] = {0.0};
 tap_button_state b;
-delay_struct dStruct;
 
 // for computing sin
 int n_delay = 0;
@@ -115,51 +114,10 @@ double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter,
 		sinCos(f * n_delay, &sinCosResult);
 		phaseJump =  MAX_LFO_AMP * sinCosResult.sin;
 	}
-
-	// consider passing raw pot values as function parameters
-	if ((potArray[1] > dStruct.knob_val_prev + dStruct.threshold) || 
-		(potArray[1] < dStruct.knob_val_prev - dStruct.threshold)) {
-
-		if (dStruct.use_button) {
-			dStruct.use_button = 0;
-			dStruct.slew_flag = 1;
-			dStruct.slew_slope = ((potArray[1] * (MAX_POT_VAL/4095.0)) - dStruct.delayVal_prev)/DELAY_SLEW_STEP_NUM;
-			dStruct.slew_counter = DELAY_SLEW_STEP_NUM;
-			dStruct.delayVal_slewing = dStruct.delayVal_prev;
-		}
-
-		max = MAX_POT_VAL;
-		dStruct.knob_val_prev = potArray[1];
-		initDelayButton();
-	}
-	else {
-		if (b.num_pushes >= 2){
-			dStruct.use_button = 1;
-		}
-
-		if (dStruct.use_button) {
-			if (b.running_average > ((double)(DELAY_LENGTH-1)/Fs))
-				b.running_average = (double)(DELAY_LENGTH-1)/Fs;
-
-			delayVal = b.running_average * Fs; // seconds to samples conversion
-			max = DELAY_LENGTH;
-		}
-	}
-
-	if (dStruct.slew_flag){
-		if (dStruct.slew_counter-- == 0)
-			dStruct.slew_flag = 0;
-
-		dStruct.delayVal_slewing += dStruct.slew_slope;
-		delayVal = dStruct.delayVal_slewing;
-		max = DELAY_LENGTH;
-	}
-	else 
-		dStruct.delayVal_prev = delayVal;
 	
 	/*** CHECK IF DELAYVAL IS DRASTICALLY DIFFERENT FROM ITS PREVIOUS VALUE, WHICH WE SHOULD STORE IN DSTRUCT ***/
 	/*** that would take care of slewing between both button sessions, and a switch between control modes (button <-> knob) ***/
-	
+
 	// compress range of delay for LFO 
 	delayVal = ((double)(DELAY_LENGTH - 2*MAX_LFO_AMP) / (DELAY_LENGTH) ) * delayVal + (MAX_LFO_AMP);
 
@@ -189,7 +147,7 @@ double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter,
 	
 	n_delay = (n_delay + 1) % (int)(Fs / ((MAX_LFO_SPEED / MAX_POT_VAL) * rate));
 
-	return dStruct.delayVal_slewing;
+	return 0;
 }
 
 void initDelayButton(void) {
@@ -211,13 +169,6 @@ void timeoutDelayButton(void) {
 	b.timeout_flag = 1;
 }
 
-void initDelayStruct(void) {
-	dStruct.knob_val_prev = 0;
-	dStruct.use_button = 0;
-	dStruct.threshold = (int)(0.01 * MAX_POT_VAL);
-	dStruct.slew_flag = 0;
-}
-
 int checkButton(void) {
 	double delta_t;
 	int retFlag = 0;
@@ -236,7 +187,8 @@ int checkButton(void) {
 	if ((b.button_val_prev > 4000) && (potArray[3] < 500)) {
 		b.clock_old = b.clock_new;
 
-		if (b.num_pushes++ >= 2) {
+		b.num_pushes++;
+		if (b.num_pushes >= 2) {
 			if (b.timeout_flag) {
 				b.running_average = delta_t;
 				b.timeout_flag = 0;
@@ -255,5 +207,8 @@ int checkButton(void) {
 }
 
 double getButtonDelayReach(){
+	if (b.running_average > ((double)(DELAY_LENGTH-1)/Fs))
+        b.running_average = (double)(DELAY_LENGTH-1)/Fs;
+
 	return b.running_average * Fs;
 }
