@@ -210,5 +210,5 @@ double getButtonDelayReach(){
 	if (b.running_average > ((double)(DELAY_LENGTH-1)/Fs))
         b.running_average = (double)(DELAY_LENGTH-1)/Fs;
 
-	return b.running_average * Fs;
+	return (double)b.running_average * (double)Fs;
 }

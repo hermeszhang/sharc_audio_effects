@@ -1,8 +1,62 @@
 <?xml version="1.0" standalone="no"?>
 <?xml-stylesheet type="text/xsl" href="file:///C:/Program Files (x86)/Analog Devices/VisualDSP 5.1.2/System/linker_log.xsl"?>
-<DOCUMENT gen_time='Thu Aug 31 15:39:46 2017
+<DOCUMENT gen_time='Mon Nov 27 13:36:32 2017
 '>
-<MSG id='033ED500' mid='li3050' type='Informational' suppressed=''>
+<MSG id='03917288' mid='li2153' type='Warning' suppressed=''>
+<TEXT><![CDATA[Input sections have inconsistent qualifiers as follows.
+DOUBLEANY | 21489_hdr.doj(seg_rth)
+DOUBLE32  | .\Debug\chorus.doj(seg_dmda)
+DOUBLE32  | .\Debug\chorus.doj(seg_swco)
+DOUBLE32  | .\Debug\configAK4396.doj(seg_swco)
+DOUBLE32  | .\Debug\delay.doj(seg_dmda)
+DOUBLE32  | .\Debug\delay.doj(seg_swco)
+DOUBLE32  | .\Debug\firFilter.doj(seg_dmda)
+DOUBLE32  | .\Debug\firFilter.doj(seg_swco)
+DOUBLE32  | .\Debug\format.doj(seg_dmda)
+DOUBLE32  | .\Debug\format.doj(seg_swco)
+DOUBLE32  | .\Debug\globals.doj(seg_dmda)
+DOUBLE32  | .\Debug\globals.doj(seg_swco)
+DOUBLE32  | .\Debug\iirFilter.doj(seg_dmda)
+DOUBLE32  | .\Debug\iirFilter.doj(seg_swco)
+DOUBLE32  | .\Debug\init_PLL_SDRAM.doj(seg_swco)
+DOUBLE32  | .\Debug\initDMA.doj(seg_dmda)
+DOUBLE32  | .\Debug\initDMA.doj(seg_swco)
+DOUBLE32  | .\Debug\initPCGA.doj(seg_swco)
+DOUBLE32  | .\Debug\initSPDIF.doj(seg_swco)
+DOUBLE32  | .\Debug\initSPI.doj(seg_swco)
+DOUBLE32  | .\Debug\initSRU.doj(seg_swco)
+DOUBLE32  | .\Debug\limiter.doj(seg_swco)
+DOUBLE32  | .\Debug\main.doj(seg_dmda)
+DOUBLE32  | .\Debug\main.doj(seg_swco)
+DOUBLE32  | .\Debug\muxSelect.doj(seg_dmda)
+DOUBLE32  | .\Debug\muxSelect.doj(seg_swco)
+DOUBLE32  | .\Debug\pingCounter.doj(seg_swco)
+DOUBLE32  | .\Debug\readPotValues.doj(seg_dmda)
+DOUBLE32  | .\Debug\readPotValues.doj(seg_swco)
+DOUBLE32  | .\Debug\SinCos.doj(seg_dmda)
+unknown   | .\Debug\SinCos.doj(seg_swco)
+DOUBLEANY | libc.dlb[argstring.doj](seg_dmda)
+DOUBLEANY | libc.dlb[argstring.doj](seg_swco)
+DOUBLEANY | libc.dlb[divrem_s32.doj](seg_pmco)
+DOUBLEANY | libc.dlb[field_interrupt.doj](seg_rth)
+DOUBLEANY | libc.dlb[getargv.doj](seg_dmda)
+DOUBLEANY | libc.dlb[getargv.doj](seg_swco)
+DOUBLEANY | libc.dlb[heap.doj](seg_init)
+DOUBLEANY | libc.dlb[inits.doj](seg_init)
+DOUBLEANY | libc.dlb[int_tabl.doj](seg_dmda)
+DOUBLEANY | libc.dlb[lib_fdiv.doj](seg_swco)
+DOUBLEANY | libc.dlb[num_heaps.doj](seg_dmda)
+DOUBLEANY | libc.dlb[proccycles.doj](seg_dmda)
+DOUBLEANY | libc.dlb[proccycles.doj](seg_swco)
+DOUBLEANY | libc.dlb[rtheap.doj](seg_init)
+DOUBLEANY | libc.dlb[set_args.doj](seg_dmda)
+DOUBLEANY | libc.dlb[set_args.doj](seg_pmco)
+DOUBLEANY | libc.dlb[set_c.doj](seg_ctdml)
+DOUBLEANY | libc.dlb[set_c.doj](seg_pmco)
+DOUBLEANY | libc.dlb[stkinvalid_sharc.doj](seg_swco)
+DOUBLEANY | libc.dlb[sure_rti.doj](seg_pmco)]]></TEXT>
+</MSG>
+<MSG id='03947FD8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'seg_pmco']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[set_args.doj](seg_pmco)

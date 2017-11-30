@@ -124,16 +124,222 @@
 	<!-- Project folders -->
 	<folders>
 		<folder name="Header Files" ext=".h,.hpp,.hxx">
+			<files>
+				<file name=".\chorus.h">
+				</file>
+				<file name=".\coeffs.h">
+				</file>
+				<file name=".\coeffsIIR.h">
+				</file>
+				<file name=".\configAK4396.h">
+				</file>
+				<file name=".\delay.h">
+				</file>
+				<file name=".\firFilter.h">
+				</file>
+				<file name=".\format.h">
+				</file>
+				<file name=".\globals.h">
+				</file>
+				<file name=".\iirFilter.h">
+				</file>
+				<file name=".\initDMA.h">
+				</file>
+				<file name=".\initPCGA.h">
+				</file>
+				<file name=".\initSPDIF.h">
+				</file>
+				<file name=".\initSPI.h">
+				</file>
+				<file name=".\initSRU.h">
+				</file>
+				<file name=".\limiter.h">
+				</file>
+				<file name=".\muxSelect.h">
+				</file>
+				<file name=".\pingCounter.h">
+				</file>
+				<file name=".\readPotValues.h">
+				</file>
+				<file name=".\signal.h">
+				</file>
+				<file name=".\sincos.h">
+				</file>
+			</files>
 		</folder>
 		<folder name="Linker Files" ext=".ldf,.dlb">
 		</folder>
 		<folder name="Source Files" ext=".c,.cpp,.cxx,.asm,.dsp,.s">
 			<files>
-				<file name=".\coeffs.h">
+				<file name=".\chorus.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
 				</file>
-				<file name=".\coeffsIIR.h">
+				<file name=".\configAK4396.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
 				</file>
-				<file name=".\dmaTest.c">
+				<file name=".\delay.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\firFilter.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\format.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\globals.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\iirFilter.c">
 					<file-configurations>
 						<file-configuration name="Debug">
 							<excluded-flag value="no"/>
@@ -162,6 +368,314 @@
 					</file-configurations>
 				</file>
 				<file name=".\init_PLL_SDRAM.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\initDMA.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\initPCGA.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\initSPDIF.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\initSPI.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\initSRU.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\limiter.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\main.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\muxSelect.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\pingCounter.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\readPotValues.c">
+					<file-configurations>
+						<file-configuration name="Debug">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Debug</intermediate-dir>
+							<output-dir>.\Debug</output-dir>
+						</file-configuration>
+						<file-configuration name="Release">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\Release</intermediate-dir>
+							<output-dir>.\Release</output-dir>
+						</file-configuration>
+						<file-configuration name="DebugNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\DebugNWC</intermediate-dir>
+							<output-dir>.\DebugNWC</output-dir>
+						</file-configuration>
+						<file-configuration name="ReleaseNWC">
+							<excluded-flag value="no"/>
+							<build-with-flag value="project"/>
+							<intermediate-dir>.\ReleaseNWC</intermediate-dir>
+							<output-dir>.\ReleaseNWC</output-dir>
+						</file-configuration>
+					</file-configurations>
+				</file>
+				<file name=".\SinCos.asm">
 					<file-configurations>
 						<file-configuration name="Debug">
 							<excluded-flag value="no"/>

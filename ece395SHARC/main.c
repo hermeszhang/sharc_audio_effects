@@ -35,13 +35,17 @@
 // for masking out possible address offset when only interested in pointer relative positions			
 #define BUFFER_MASK 0x000000FF    
 
+#define MAX_TARGET_DIVISOR 500
+
+// for faster sweeps between delay reach values, increase this number. for slower, decrease it.
+#define TIME_TO_TARGET 1300000
+
 // Configure the PLL for a core-clock of 266MHz and SDCLK of 133MHz
 extern void initPLL_SDRAM(void);
 
 void main(void) {
 
-
-		initPLL_SDRAM();
+	initPLL_SDRAM();
 	initSPI(DS0EN);
 	initSRU();
 
@@ -84,8 +88,11 @@ void main(void) {
 
 	double knobPrev = 0.0;
 	double threshold = 1;
-	// target value for slewing (dslope)
-	double target;
+
+	int target_counter = 0;
+	int target_divisor = 1;
+	double target_difference = 0.0;
+	double target_threshold = TOGGLE_TIME * NUM_POTS;
 
 	// potentiometer histories for filtering
 	double pot_history[NUM_POTS*FILTER_LENGTH] = {0.0};
@@ -128,40 +135,110 @@ void main(void) {
 					potArray[selectCounter] = fir_filter(potArray[selectCounter], pot_history + selectCounter*FILTER_LENGTH, history_idx);
 
 				
-				// 1 is select line for delay knob
+				// ---------------- 1 is select line for delay knob ----------------
 				if (selectCounter == 1) {
 					knobChange = ((int)potArray[1] > (int)(knobPrev + threshold)) || ((int)potArray[1] < (int)(knobPrev - threshold));
 					
 					if (knobChange){
+
+						target_counter = 0;
+
+						target_difference = (double)(potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1]);
+
+						// take absolute value for easier threshold comparison
+						if (target_difference < 0)
+							target_difference *= -1;
+
+						if (target_difference >= target_threshold) {
+							// target_divisor = MAX_TARGET_DIVISOR;
+							target_divisor = (target_difference * target_difference) / TIME_TO_TARGET; // 921600
+
+							if (target_divisor < 1)
+								target_divisor = 1;
+						}
+						else {
+							target_divisor = 1;
+						}
+
 						controlState = KNOB;
 						initDelayButton();
 					}
 
-					movie[movie_idx] = knobChange;
-					movie_idx = (movie_idx + 1) % 5000;
+					// movie[movie_idx] = knobChange;
+					// movie_idx = (movie_idx + 1) % 5000;
 
 					if (controlState == KNOB){
-						dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
-					}
+						if (target_counter == 0){
+							dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+							dSlope[1] /= (double)target_divisor;
+							target_counter++;
+							movie[movie_idx] = dSlope[1];
+							movie_idx = (movie_idx + 1) % 5000;
+						}
+						else {
+							target_counter++;
+						}
+						if (target_counter == target_divisor){
+							target_divisor = 1;
+							target_counter = 0;
+						}		
+					} 
 
 					knobPrev = potArray[1];
 				}
-				// 3 is select line for button
+
+				// ---------------- 3 is select line for button ----------------
 				else if (selectCounter == 3) {
 					newButtonAverage = checkButton();
+
  					// newButtonAverage = 0;
 					// movie[movie_idx] = newButtonAverage;
 					// movie_idx = (movie_idx + 1) % 5000;
 
 					if (newButtonAverage){
-						dSlope[1] = (double)((getButtonDelayReach() - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+
+						target_counter = 0;
+
+						target_difference = (double)(getButtonDelayReach() - (int)d[1]);
+
+						// take absolute value for easier threshold comparison
+						if (target_difference < 0)
+							target_difference *= -1;
+
+						if (target_difference >= target_threshold) {
+							// target_divisor = MAX_TARGET_DIVISOR;
+							target_divisor = (target_difference * target_difference) / TIME_TO_TARGET;
+
+							if (target_divisor < 1)
+								target_divisor = 1;
+						}
+						else {
+							target_divisor = 1;
+						}
+
 						controlState = BUTTON;
+
 					}
-					else if (controlState == BUTTON) {
-						dSlope[1] = 0;
+
+					if (controlState == BUTTON) {
+
+						if (target_counter == 0){
+							dSlope[1] = (double)((getButtonDelayReach() - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
+							dSlope[1] /= (double)target_divisor;
+							target_counter++;
+							movie[movie_idx] = 5555;
+							movie_idx = (movie_idx + 1) % 5000;
+						}
+						else {
+							target_counter++;
+						}
+						if (target_counter == target_divisor){
+							target_counter = target_divisor - 1;
+							dSlope[1] = 0;
+						}
 					}
 				}
-				// make sure slope is properly computed for all other pots
+				// make sure slope is properly computed for all other pots, any other pot not dealing with delay times
 				else {
 					dSlope[selectCounter] = (double)((potArray[selectCounter] * (MAX_POT_VAL/4095.0) - (int)d[selectCounter])/(TOGGLE_TIME * NUM_POTS));
 				}

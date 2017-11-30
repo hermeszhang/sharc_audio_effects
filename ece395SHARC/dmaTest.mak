@@ -38,25 +38,110 @@ ifeq ($(MAKECMDGOALS),dmaTest_Debug)
 
 dmaTest_Debug : ./Debug/dmaTest.dxe 
 
-Debug/dmaTest.doj :dmaTest.c $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/signal.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h coeffs.h coeffsIIR.h window.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h 
-	@echo ".\dmaTest.c"
-	$(VDSP)/cc21k.exe -c .\dmaTest.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\dmaTest.doj -MM
+Debug/chorus.doj :chorus.c chorus.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h iirFilter.h limiter.h 
+	@echo ".\chorus.c"
+	$(VDSP)/cc21k.exe -c .\chorus.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\chorus.doj -MM
+
+Debug/configAK4396.doj :configAK4396.c configAK4396.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\configAK4396.c"
+	$(VDSP)/cc21k.exe -c .\configAK4396.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\configAK4396.doj -MM
+
+Debug/delay.doj :delay.c delay.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h iirFilter.h limiter.h 
+	@echo ".\delay.c"
+	$(VDSP)/cc21k.exe -c .\delay.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\delay.doj -MM
+
+Debug/firFilter.doj :firFilter.c firFilter.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h coeffs.h 
+	@echo ".\firFilter.c"
+	$(VDSP)/cc21k.exe -c .\firFilter.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\firFilter.doj -MM
+
+Debug/format.doj :format.c format.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\format.c"
+	$(VDSP)/cc21k.exe -c .\format.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\format.doj -MM
+
+Debug/globals.doj :globals.c globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\globals.c"
+	$(VDSP)/cc21k.exe -c .\globals.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\globals.doj -MM
+
+Debug/iirFilter.doj :iirFilter.c iirFilter.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h coeffsIIR.h 
+	@echo ".\iirFilter.c"
+	$(VDSP)/cc21k.exe -c .\iirFilter.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\iirFilter.doj -MM
 
 Debug/init_PLL_SDRAM.doj :init_PLL_SDRAM.c $(VDSP)/214xx/include/def21489.h $(VDSP)/214xx/include/cdef21489.h 
 	@echo ".\init_PLL_SDRAM.c"
 	$(VDSP)/cc21k.exe -c .\init_PLL_SDRAM.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\init_PLL_SDRAM.doj -MM
 
-./Debug/dmaTest.dxe :$(VDSP)/214xx/ldf/ADSP-21489.LDF $(VDSP)/214xx/lib/21479_rev_any/21489_hdr.doj ./Debug/dmaTest.doj ./Debug/init_PLL_SDRAM.doj $(VDSP)/214xx/lib/21479_rev_any/libc.dlb $(VDSP)/214xx/lib/21479_rev_any/libio.dlb $(VDSP)/214xx/lib/21479_rev_any/libcpp.dlb $(VDSP)/214xx/lib/21479_rev_any/libdsp.dlb 
+Debug/initDMA.doj :initDMA.c initDMA.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\initDMA.c"
+	$(VDSP)/cc21k.exe -c .\initDMA.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\initDMA.doj -MM
+
+Debug/initPCGA.doj :initPCGA.c initPCGA.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\initPCGA.c"
+	$(VDSP)/cc21k.exe -c .\initPCGA.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\initPCGA.doj -MM
+
+Debug/initSPDIF.doj :initSPDIF.c initSPDIF.h $(VDSP)/214xx/include/Cdef21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\initSPDIF.c"
+	$(VDSP)/cc21k.exe -c .\initSPDIF.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\initSPDIF.doj -MM
+
+Debug/initSPI.doj :initSPI.c initSPI.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\initSPI.c"
+	$(VDSP)/cc21k.exe -c .\initSPI.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\initSPI.doj -MM
+
+Debug/initSRU.doj :initSRU.c initSRU.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\initSRU.c"
+	$(VDSP)/cc21k.exe -c .\initSRU.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\initSRU.doj -MM
+
+Debug/limiter.doj :limiter.c limiter.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h iirFilter.h 
+	@echo ".\limiter.c"
+	$(VDSP)/cc21k.exe -c .\limiter.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\limiter.doj -MM
+
+Debug/main.doj :main.c $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/signal.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h delay.h iirFilter.h limiter.h chorus.h initSRU.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h initSPDIF.h initSPI.h configAK4396.h initDMA.h initPCGA.h firFilter.h format.h muxSelect.h readPotValues.h pingCounter.h 
+	@echo ".\main.c"
+	$(VDSP)/cc21k.exe -c .\main.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\main.doj -MM
+
+Debug/muxSelect.doj :muxSelect.c muxSelect.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\muxSelect.c"
+	$(VDSP)/cc21k.exe -c .\muxSelect.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\muxSelect.doj -MM
+
+Debug/pingCounter.doj :pingCounter.c pingCounter.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\pingCounter.c"
+	$(VDSP)/cc21k.exe -c .\pingCounter.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\pingCounter.doj -MM
+
+Debug/readPotValues.doj :readPotValues.c readPotValues.h $(VDSP)/214xx/include/Cdef21489.h $(VDSP)/214xx/include/SRU.h $(VDSP)/214xx/include/sru21489.h $(VDSP)/214xx/include/def21489.h globals.h $(VDSP)/214xx/include/stdio.h $(VDSP)/214xx/include/stdio_21xxx.h $(VDSP)/214xx/include/math.h $(VDSP)/214xx/include/math_21xxx.h $(VDSP)/214xx/include/time.h $(VDSP)/214xx/include/yvals.h $(VDSP)/214xx/include/xcycle_count.h $(VDSP)/214xx/include/limits.h $(VDSP)/214xx/include/cycle_count_21xxx.h sincos.h 
+	@echo ".\readPotValues.c"
+	$(VDSP)/cc21k.exe -c .\readPotValues.c -file-attr ProjectName=dmaTest -g -structs-do-not-overlap -no-multiline -double-size-32 -swc -warn-protos -si-revision 0.2 -proc ADSP-21489 -o .\Debug\readPotValues.doj -MM
+
+./Debug/SinCos.doj :./SinCos.asm $(VDSP)/214xx/include/def21489.h 
+	@echo ".\SinCos.asm"
+	$(VDSP)/easm21k.exe .\SinCos.asm -proc ADSP-21489 -file-attr ProjectName=dmaTest -g -swc -si-revision 0.2 -o .\Debug\SinCos.doj -MM
+
+./Debug/dmaTest.dxe :$(VDSP)/214xx/ldf/ADSP-21489.LDF $(VDSP)/214xx/lib/21479_rev_any/21489_hdr.doj ./Debug/chorus.doj ./Debug/configAK4396.doj ./Debug/delay.doj ./Debug/firFilter.doj ./Debug/format.doj ./Debug/globals.doj ./Debug/iirFilter.doj ./Debug/init_PLL_SDRAM.doj ./Debug/initDMA.doj ./Debug/initPCGA.doj ./Debug/initSPDIF.doj ./Debug/initSPI.doj ./Debug/initSRU.doj ./Debug/limiter.doj ./Debug/main.doj ./Debug/muxSelect.doj ./Debug/pingCounter.doj ./Debug/readPotValues.doj ./Debug/SinCos.doj $(VDSP)/214xx/lib/21479_rev_any/libc.dlb $(VDSP)/214xx/lib/21479_rev_any/libio.dlb $(VDSP)/214xx/lib/21479_rev_any/libcpp.dlb $(VDSP)/214xx/lib/21479_rev_any/libdsp.dlb 
 	@echo "Linking..."
-	$(VDSP)/cc21k.exe .\Debug\dmaTest.doj .\Debug\init_PLL_SDRAM.doj -L .\Debug -add-debug-libpaths -swc -flags-link -od,.\Debug -o .\Debug\dmaTest.dxe -proc ADSP-21489 -si-revision 0.2 -MM
+	$(VDSP)/cc21k.exe .\Debug\chorus.doj .\Debug\configAK4396.doj .\Debug\delay.doj .\Debug\firFilter.doj .\Debug\format.doj .\Debug\globals.doj .\Debug\iirFilter.doj .\Debug\init_PLL_SDRAM.doj .\Debug\initDMA.doj .\Debug\initPCGA.doj .\Debug\initSPDIF.doj .\Debug\initSPI.doj .\Debug\initSRU.doj .\Debug\limiter.doj .\Debug\main.doj .\Debug\muxSelect.doj .\Debug\pingCounter.doj .\Debug\readPotValues.doj .\Debug\SinCos.doj -L .\Debug -add-debug-libpaths -swc -flags-link -od,.\Debug -o .\Debug\dmaTest.dxe -proc ADSP-21489 -si-revision 0.2 -MM
 
 endif
 
 ifeq ($(MAKECMDGOALS),dmaTest_Debug_clean)
 
 dmaTest_Debug_clean:
-	-$(RM) "Debug\dmaTest.doj"
+	-$(RM) "Debug\chorus.doj"
+	-$(RM) "Debug\configAK4396.doj"
+	-$(RM) "Debug\delay.doj"
+	-$(RM) "Debug\firFilter.doj"
+	-$(RM) "Debug\format.doj"
+	-$(RM) "Debug\globals.doj"
+	-$(RM) "Debug\iirFilter.doj"
 	-$(RM) "Debug\init_PLL_SDRAM.doj"
+	-$(RM) "Debug\initDMA.doj"
+	-$(RM) "Debug\initPCGA.doj"
+	-$(RM) "Debug\initSPDIF.doj"
+	-$(RM) "Debug\initSPI.doj"
+	-$(RM) "Debug\initSRU.doj"
+	-$(RM) "Debug\limiter.doj"
+	-$(RM) "Debug\main.doj"
+	-$(RM) "Debug\muxSelect.doj"
+	-$(RM) "Debug\pingCounter.doj"
+	-$(RM) "Debug\readPotValues.doj"
+	-$(RM) ".\Debug\SinCos.doj"
 	-$(RM) ".\Debug\dmaTest.dxe"
 	-$(RM) ".\Debug\*.ipa"
 	-$(RM) ".\Debug\*.opa"
