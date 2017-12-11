@@ -1,8 +1,8 @@
 <?xml version="1.0" standalone="no"?>
 <?xml-stylesheet type="text/xsl" href="file:///C:/Program Files (x86)/Analog Devices/VisualDSP 5.1.2/System/linker_log.xsl"?>
-<DOCUMENT gen_time='Mon Nov 27 13:36:32 2017
+<DOCUMENT gen_time='Mon Dec 11 12:35:15 2017
 '>
-<MSG id='03917288' mid='li2153' type='Warning' suppressed=''>
+<MSG id='03A03FA0' mid='li2153' type='Warning' suppressed=''>
 <TEXT><![CDATA[Input sections have inconsistent qualifiers as follows.
 DOUBLEANY | 21489_hdr.doj(seg_rth)
 DOUBLE32  | .\Debug\chorus.doj(seg_dmda)
@@ -56,7 +56,7 @@ DOUBLEANY | libc.dlb[set_c.doj](seg_pmco)
 DOUBLEANY | libc.dlb[stkinvalid_sharc.doj](seg_swco)
 DOUBLEANY | libc.dlb[sure_rti.doj](seg_pmco)]]></TEXT>
 </MSG>
-<MSG id='03947FD8' mid='li3050' type='Informational' suppressed=''>
+<MSG id='039D6EA0' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'seg_pmco']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[set_args.doj](seg_pmco)

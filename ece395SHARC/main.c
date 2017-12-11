@@ -38,7 +38,8 @@
 #define MAX_TARGET_DIVISOR 500
 
 // for faster sweeps between delay reach values, increase this number. for slower, decrease it.
-#define TIME_TO_TARGET 1300000
+// 921600 is the minimum value that TIME_TO_TARGET can take
+#define TIME_TO_TARGET 1300000 
 
 // Configure the PLL for a core-clock of 266MHz and SDCLK of 133MHz
 extern void initPLL_SDRAM(void);
@@ -151,7 +152,7 @@ void main(void) {
 
 						if (target_difference >= target_threshold) {
 							// target_divisor = MAX_TARGET_DIVISOR;
-							target_divisor = (target_difference * target_difference) / TIME_TO_TARGET; // 921600
+							target_divisor = (target_difference * target_difference) / TIME_TO_TARGET; 
 
 							if (target_divisor < 1)
 								target_divisor = 1;
@@ -172,8 +173,8 @@ void main(void) {
 							dSlope[1] = (double)((potArray[1] * (MAX_POT_VAL/4095.0) - (int)d[1])/(TOGGLE_TIME * NUM_POTS));
 							dSlope[1] /= (double)target_divisor;
 							target_counter++;
-							movie[movie_idx] = dSlope[1];
-							movie_idx = (movie_idx + 1) % 5000;
+							// movie[movie_idx] = dSlope[1];
+							// movie_idx = (movie_idx + 1) % 5000;
 						}
 						else {
 							target_counter++;

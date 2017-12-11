@@ -122,7 +122,7 @@ double delayLFO(double delayVal, double feedbackIn, limiter_state* delayLimiter,
 	delayVal = ((double)(DELAY_LENGTH - 2*MAX_LFO_AMP) / (DELAY_LENGTH) ) * delayVal + (MAX_LFO_AMP);
 
 	// add lfo value for modulation
-	// delayVal += phaseJump;
+	delayVal += phaseJump;
 	delayVal = (max - delayVal);
 
 	// delayVal += 0.0*4096.0;

@@ -1,0 +1,104 @@
+<?xml version="1.0" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/Program Files (x86)/Analog Devices/VisualDSP 5.1.2/System/linker_log.xsl"?>
+<DOCUMENT gen_time='Mon Dec 11 13:06:01 2017
+'>
+<MSG id='03676EF8' mid='li2153' type='Warning' suppressed=''>
+<TEXT><![CDATA[Input sections have inconsistent qualifiers as follows.
+DOUBLEANY | 21489_hdr.doj(seg_rth)
+DOUBLE32  | .\Release\chorus.doj(seg_dmda)
+DOUBLE32  | .\Release\chorus.doj(seg_swco)
+DOUBLE32  | .\Release\configAK4396.doj(seg_swco)
+DOUBLE32  | .\Release\delay.doj(seg_dmda)
+DOUBLE32  | .\Release\delay.doj(seg_swco)
+DOUBLE32  | .\Release\firFilter.doj(seg_dmda)
+DOUBLE32  | .\Release\firFilter.doj(seg_swco)
+DOUBLE32  | .\Release\format.doj(seg_dmda)
+DOUBLE32  | .\Release\format.doj(seg_swco)
+DOUBLE32  | .\Release\globals.doj(seg_dmda)
+DOUBLE32  | .\Release\globals.doj(seg_swco)
+DOUBLE32  | .\Release\iirFilter.doj(seg_dmda)
+DOUBLE32  | .\Release\iirFilter.doj(seg_swco)
+DOUBLE32  | .\Release\init_PLL_SDRAM.doj(seg_swco)
+DOUBLE32  | .\Release\initDMA.doj(seg_dmda)
+DOUBLE32  | .\Release\initDMA.doj(seg_swco)
+DOUBLE32  | .\Release\initPCGA.doj(seg_swco)
+DOUBLE32  | .\Release\initSPDIF.doj(seg_swco)
+DOUBLE32  | .\Release\initSPI.doj(seg_swco)
+DOUBLE32  | .\Release\initSRU.doj(seg_swco)
+DOUBLE32  | .\Release\limiter.doj(seg_swco)
+DOUBLE32  | .\Release\main.doj(seg_dmda)
+DOUBLE32  | .\Release\main.doj(seg_swco)
+DOUBLE32  | .\Release\muxSelect.doj(seg_dmda)
+DOUBLE32  | .\Release\muxSelect.doj(seg_swco)
+DOUBLE32  | .\Release\pingCounter.doj(seg_swco)
+DOUBLE32  | .\Release\readPotValues.doj(seg_dmda)
+DOUBLE32  | .\Release\readPotValues.doj(seg_swco)
+DOUBLE32  | .\Release\SinCos.doj(seg_dmda)
+unknown   | .\Release\SinCos.doj(seg_swco)
+DOUBLEANY | libc.dlb[argstring.doj](seg_dmda)
+DOUBLEANY | libc.dlb[argstring.doj](seg_swco)
+DOUBLEANY | libc.dlb[divrem_s32.doj](seg_pmco)
+DOUBLEANY | libc.dlb[field_interrupt.doj](seg_rth)
+DOUBLEANY | libc.dlb[getargv.doj](seg_dmda)
+DOUBLEANY | libc.dlb[getargv.doj](seg_swco)
+DOUBLEANY | libc.dlb[heap.doj](seg_init)
+DOUBLEANY | libc.dlb[inits.doj](seg_init)
+DOUBLEANY | libc.dlb[int_tabl.doj](seg_dmda)
+DOUBLEANY | libc.dlb[lib_fdiv.doj](seg_swco)
+DOUBLEANY | libc.dlb[num_heaps.doj](seg_dmda)
+DOUBLEANY | libc.dlb[proccycles.doj](seg_dmda)
+DOUBLEANY | libc.dlb[proccycles.doj](seg_swco)
+DOUBLEANY | libc.dlb[rtheap.doj](seg_init)
+DOUBLEANY | libc.dlb[set_args.doj](seg_dmda)
+DOUBLEANY | libc.dlb[set_args.doj](seg_pmco)
+DOUBLEANY | libc.dlb[set_c.doj](seg_ctdml)
+DOUBLEANY | libc.dlb[set_c.doj](seg_pmco)
+DOUBLEANY | libc.dlb[stkinvalid_sharc.doj](seg_swco)
+DOUBLEANY | libc.dlb[sure_rti.doj](seg_pmco)]]></TEXT>
+</MSG>
+<MSG id='0067EAC0' mid='li3201' type='Informational' suppressed=''>
+<TEXT><![CDATA[Successfully eliminated 33736 bytes in processor 'p0'
+]]></TEXT>
+<EXTENDED_INFO><![CDATA[Eliminated object (_chorusLimiterBuffer, ._chorusLimiterBuffer.end) of size 100 bytes from '.\Release\chorus.doj(seg_dmda)'
+Eliminated object (_n, ._n.end) of size 5 bytes from '.\Release\chorus.doj(seg_dmda)'
+Eliminated object (_chorus, ._chorus.end) of size 482 bytes from '.\Release\chorus.doj(seg_swco)'
+Eliminated object (_h, ._h.end) of size 15 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (_d, ._d.end) of size 5 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (_feedback, ._feedback.end) of size 5 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (0x1f,0x20) of size 5 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (_button_debug, ._button_debug.end) of size 5 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (_sinCosResult, _sinCosResult+0x2) of size 10 bytes from '.\Release\delay.doj(seg_dmda)'
+Eliminated object (_delayHarmonicWithFeedback, ._delayHarmonicWithFeedback.end) of size 208 bytes from '.\Release\delay.doj(seg_swco)'
+Eliminated object (_delayFromIEEE, ._delayFromIEEE.end) of size 338 bytes from '.\Release\delay.doj(seg_swco)'
+Eliminated object (_delay_ptr, ._delay_ptr.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_delay_counter, ._delay_counter.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_chorus_ptr, ._chorus_ptr.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_chorus_buffer, ._chorus_buffer.end) of size 7200 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_tx1a_delay_tcb, ._tx1a_delay_tcb.end) of size 40 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_auxDivisor, ._auxDivisor.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_potValue, ._potValue.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_potValuePrev1, ._potValuePrev1.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (_potValuePrev2, ._potValuePrev2.end) of size 5 bytes from '.\Release\globals.doj(seg_dmda)'
+Eliminated object (.static2, .static2.end) of size 25000 bytes from '.\Release\main.doj(seg_dmda)'
+Eliminated object (_b0, _b0+0x1) of size 5 bytes from '.\Release\muxSelect.doj(seg_dmda)'
+Eliminated object (_b1, _b1+0x1) of size 5 bytes from '.\Release\muxSelect.doj(seg_dmda)'
+Eliminated object (_b2, _b2+0x1) of size 5 bytes from '.\Release\muxSelect.doj(seg_dmda)'
+Eliminated object (_muxSelect, ._muxSelect.end) of size 256 bytes from '.\Release\muxSelect.doj(seg_swco)'
+Eliminated object (___lib_setup_runtime_heap, .___lib_setup_runtime_heap.end) of size 12 bytes from 'libc.dlb[set_c.doj](seg_pmco)'
+]]></EXTENDED_INFO>
+</MSG>
+<MSG id='038A08B8' mid='li3050' type='Informational' suppressed=''>
+<TEXT><![CDATA[Input section(s) were excluded from output section 'seg_pmco']]></TEXT>
+<EXTENDED_INFO><![CDATA[The following input section(s) were excluded
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[divrem_s32.doj](seg_pmco)
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[sure_rti.doj](seg_pmco)
+    libc.dlb[divrem_s32.doj](seg_pmco)
+    libc.dlb[set_args.doj](seg_pmco)
+    libc.dlb[set_c.doj](seg_pmco)
+    libc.dlb[sure_rti.doj](seg_pmco)]]></EXTENDED_INFO>
+</MSG>
+</DOCUMENT>
